@@ -10,7 +10,7 @@ Für die Implementation dieser Webseite verwenden wir folgendes Framework und Te
 ----- TO BE DETERMINED -----
 
 ### Backend
-- PostGreSQL als Datenbanksystem
+- PostgreSQL als Datenbanksystem
 - Stored Procedures für Datenbankabfragen
 
 ### Frontend
