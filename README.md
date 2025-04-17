@@ -7,7 +7,7 @@ Die Webseite soll dynamisch gestaltet werden und Abfragen an die Datenbank werde
 
 Für die Implementation dieser Webseite verwenden wir folgendes Framework und Technologien:
 
------ TO BE DETERMINED -----
+- SvelteKit
 
 ### Backend
 - PostgreSQL als Datenbanksystem
