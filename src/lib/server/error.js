@@ -13,3 +13,11 @@ export class GenricDatabaseError extends Error {
         this.status = 500;
     }
 }
+
+export class DuplicateEmailError extends Error {
+    constructor(message = 'Email already exists') {
+        super(message);
+        this.name = 'DuplicateEmailError';
+        this.status = 400;
+    }
+}

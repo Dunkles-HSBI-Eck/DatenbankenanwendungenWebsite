@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { registerUser } from '$lib/server/database.js';
 import { hashPassword, createJWT } from '$lib/server/authentication.js';
+import { DuplicateEmailError } from '$lib/server/error.js';
 
 const REGEX_EMAIL = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 const REGEX_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/; // At least 8 characters, one uppercase, one lowercase, one number
@@ -30,8 +31,11 @@ export async function POST({ request }) {
     let user_id;
     try {
         user_id = await registerUser(email, hash, salt);
-    } catch {
-        error(500, 'Internal server error while registering user');
+    } catch (e) {
+        if (e instanceof DuplicateEmailError) {
+            error(e.status, 'Email already registered');
+        }
+        error(e.status, 'Internal server error while registering user');
     }
 
     return new Response(null, {

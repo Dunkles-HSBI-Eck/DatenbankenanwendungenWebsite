@@ -6,7 +6,7 @@ import {
     POSTGRES_PORT,
     DATABASE_NAME
 } from '$env/static/private';
-import { GenricDatabaseError, NoUserFound } from "$lib/server/error.js";
+import { DuplicateEmailError, GenricDatabaseError, NoUserFound } from "$lib/server/error.js";
 
 
 const pool = new Pool({
@@ -20,11 +20,14 @@ const pool = new Pool({
 export async function registerUser(email, hash, salt) {
     try {
         const result = await pool.query(
-            'CALL register_user($1, $2, $3)',
+            'CALL register_user($1, $2, $3, null)',
             [email, hash, salt]
         )
-        return result.rows[0].membership_id; 
+        return result.rows[0].membership_id_return; 
     } catch (error) {
+        if(error.message.includes('duplicate email')) {
+            throw new DuplicateEmailError;
+        }
         console.error('Error registering user:', error);
         throw new GenricDatabaseError('Database error while registering user');
     }
