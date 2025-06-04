@@ -19,10 +19,11 @@ const pool = new Pool({
 
 export async function registerUser(email, hash, salt) {
     try {
-        await pool.query(
+        const result = await pool.query(
             'CALL register_user($1, $2, $3)',
             [email, hash, salt]
         )
+        return result.rows[0].membership_id; 
     } catch (error) {
         console.error('Error registering user:', error);
         throw new GenricDatabaseError('Database error while registering user');
@@ -54,7 +55,7 @@ export async function verifyUser(email, hash) {
         if (result.rows.length === 0) {
             throw new NoUserFound('No user found with the provided credentials');
         }
-        return result.rows[0];
+        return result.rows[0].membership_id;
     } catch (error) {
         console.error('Error verifying user:', error);
         throw new GenricDatabaseError('Database error while verifying user');

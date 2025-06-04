@@ -1,8 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { registerUser } from '$lib/server/database.js';
-import { hashPassword } from '$lib/server/password.js';
-import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '$env/static/private';
+import { hashPassword, createJWT } from '$lib/server/authentication.js';
 
 const REGEX_EMAIL = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 const REGEX_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/; // At least 8 characters, one uppercase, one lowercase, one number
@@ -29,20 +27,16 @@ export async function POST({ request }) {
     const { hash, salt } = await hashPassword(password);
 
     // Register user in the database
+    let user_id;
     try {
-        await registerUser(email, hash, salt);
+        user_id = await registerUser(email, hash, salt);
     } catch {
         error(500, 'Internal server error while registering user');
     }
 
-    // Create JWT
-    const token = await jwt.sign({ email }, JWT_SECRET, {
-        expiresIn: '30d'
-    });
-
-    return new Response(null,{
+    return new Response(null, {
         headers: {
-            'Set-Cookie': `jwt=${token}; HttpOnly; Path=/; Max-Age=${60*60*24*30}; Secure;` // Set cookie with JWT
+            'Set-Cookie': `jwt=${await createJWT(user_id)}; HttpOnly; Path=/; Max-Age=${60 * 60 * 24 * 30}; Secure;` // Set cookie with JWT
         }
     });
 }
