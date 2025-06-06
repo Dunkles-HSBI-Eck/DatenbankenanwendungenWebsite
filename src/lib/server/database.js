@@ -23,7 +23,7 @@ export async function registerUser(email, hash, salt) {
             'CALL register_user($1, $2, $3, null)',
             [email, hash, salt]
         )
-        return result.rows[0].membership_id_return; 
+        return Number.parseInt(result.rows[0].membership_id_return); 
     } catch (error) {
         if(error.message.includes('duplicate email')) {
             throw new DuplicateEmailError;
@@ -36,14 +36,17 @@ export async function registerUser(email, hash, salt) {
 export async function getSaltByEmail(email) {
     try {
         const result = await pool.query(
-            'CALL get_salt_by_email($1)',
+            'CALL get_salt_by_email($1, null)',
             [email]
         );
-        if (result.rows.length === 0) {
+        if (result.rows[0].salt_return === null) {
             throw new NoUserFound('No user found with the provided email');
         }
-        return result.rows[0].salt;
+        return result.rows[0].salt_return;
     } catch (error) {
+        if (error instanceof NoUserFound) {
+            throw error;
+        }
         console.error('Error fetching salt:', error);
         throw new GenricDatabaseError('Database error while fetching salt');
     }
@@ -52,14 +55,17 @@ export async function getSaltByEmail(email) {
 export async function verifyUser(email, hash) {
     try {
         const result = await pool.query(
-            'CALL verify_user($1, $2)',
+            'CALL verify_user($1, $2, null)',
             [email, hash]
         );
-        if (result.rows.length === 0) {
+        if (result.rows[0].membership_id_return === null) {
             throw new NoUserFound('No user found with the provided credentials');
         }
-        return result.rows[0].membership_id;
+        return Number.parseInt(result.rows[0].membership_id_return);
     } catch (error) {
+    if (error instanceof NoUserFound) {
+            throw error;
+        }
         console.error('Error verifying user:', error);
         throw new GenricDatabaseError('Database error while verifying user');
     }
