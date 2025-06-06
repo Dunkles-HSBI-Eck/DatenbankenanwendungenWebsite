@@ -21,3 +21,13 @@ export async function createJWT(user_id) {
 
     return token;
 }
+
+export async function verifyJWT(token) {
+    try {
+        const decoded = await jwt.verify(token, JWT_SECRET);
+        return decoded.user_id;
+    } catch (error) {
+        console.error('JWT verification failed:', error);
+        return null;
+    }
+}
