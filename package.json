@@ -34,7 +34,9 @@
 		]
 	},
 	"dependencies": {
+		"@redis/client": "^5.5.6",
 		"jsonwebtoken": "^9.0.2",
+		"minio": "^8.0.5",
 		"pg": "^8.16.0"
 	}
 }
