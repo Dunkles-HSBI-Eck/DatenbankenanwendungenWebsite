@@ -12,6 +12,10 @@ const rateLimitRoutes = JSON.parse(RATE_LIMITER_ROUTES || '[]').map(route => {
 
 
 export async function handle({ event, resolve }) {
+    if (!event.route.id) {
+        return error(404, 'Site not found');
+    }
+
     // Identify the user based on JWT token or IP address
     event.locals.userIp = event.getClientAddress();
     const token = event.cookies.get('jwt')
