@@ -3,7 +3,9 @@ import { JWT_SECRET } from '$env/static/private';
 
 export async function hashPassword(password, salt = null) {
     if (!salt) {
-        salt = crypto.getRandomValues(new Uint8Array(16)).toString('hex');
+        salt = Array.from(crypto.getRandomValues(new Uint8Array(16)))
+            .map(b => b.toString(36).padStart(2, '0'))
+            .join('');
     }
 
     const encoder = new TextEncoder();
