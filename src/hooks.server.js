@@ -63,7 +63,7 @@ async function globalRateLimiter(event) {
  */
 async function routesRateLimiter(event) {
     for (const route of rateLimitRoutes) {
-        if (!event.route.id.startsWith(route.route)) return;
+        if (!event.route.id.startsWith(route.route)) continue;
 
         const rateLimitExceeded = await rateLimit(
             event.locals.userId || event.locals.userIp,
@@ -74,5 +74,7 @@ async function routesRateLimiter(event) {
         if (rateLimitExceeded) {
             throw error(429, 'Rate limit exceeded');
         }
+
+        break;
     }
 }
