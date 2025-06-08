@@ -31,21 +31,28 @@
 
     }
 
-    function updateTime(){
-        streamCurrentTime = stream.currentTime;
+    function updateTime(s){
+        streamCurrentTime = s.currentTime;
+        if(streamDuration != 0)
+        {
+            barPercentage = [(streamCurrentTime/streamDuration) *100];
+        }
+        
+        
     }
     onMount(() => {
         stream = document.getElementById("stream");
         streamDuration = stream.duration;
-        setInterval(updateTime, 500);
-        
+        setInterval(updateTime, 500, stream);
+        //const myTimeout = setTimeout(updateTime, 500, stream);
     })
 
     function handleSliderChange(value) {
-    console.log("before:" + value.value);
+    console.log("before:" + value.value[0]);
     if (stream && stream.duration) {
-        stream.currentTime = (value.value / 100) * stream.duration;
+        stream.currentTime = (value.value[0] / 100) * stream.duration;
     }
+    barPercentage = [value.value[0]];
     console.log("changed");
     }
     
@@ -58,7 +65,7 @@
 <div class="fixed bottom-0 p-1 w-full h-32  duration-300 hover:opacity-100 transition-opacity hover:pointer-events-auto" >
     
       <div class="p-10">  
-    <Slider name="stream" id="progressBar" bind:value={barPercentage} onValueChangeEnd={handleSliderChange} meterBg="bg-secondary-500"  thumbSize="size-4"  thumbClasses="duration-200 opacity-0 hover:opacity-100"/>
+    <Slider name="stream" id="progressBar" bind:value={barPercentage} disabled={false} readOnly={false} onValueChange={handleSliderChange} meterBg="bg-secondary-500"  thumbSize="size-4"  thumbClasses="duration-200 opacity-0 hover:opacity-100"/>
         </div>
     <button class="btn preset-filled-tritiary-500 ml-10" onclick={pauseClick}>{#if paused}<IconPlay/>{:else} <IconPause/>{/if} </button>
 
