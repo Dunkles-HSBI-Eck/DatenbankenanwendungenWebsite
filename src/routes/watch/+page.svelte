@@ -7,16 +7,27 @@
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 
+    import Hls from 'hls.js';
 
 
-    let videoSrc= $state("TestVid.mp4");
+
+
+    let videoSrc= "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
     let barPercentage = $state(0);
     let paused = $state(true);
     let stream;
     let streamDuration = $state(0);
     let streamCurrentTime = $state(0);
     
-
+    if(Hls.isSupported())
+    {
+        console.log('Hls is supported')
+    }
+    else
+    {
+        console.log("Hls is not supported");
+    }
+    
     
     function pauseClick(){
         paused = !paused;
@@ -41,10 +52,18 @@
         
     }
     onMount(() => {
-        stream = document.getElementById("stream");
         streamDuration = stream.duration;
         setInterval(updateTime, 500, stream);
-        //const myTimeout = setTimeout(updateTime, 500, stream);
+        
+        if(Hls.isSupported()){
+        const hls = new Hls();
+        hls.loadSource(videoSrc);
+        hls.attachMedia(stream);
+        hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+            console.log('Media attached');
+        });
+    }
+
     })
 
     function handleSliderChange(value) {
@@ -58,8 +77,8 @@
     
 
 </script>
-<video id="stream">
-    <source src={videoSrc} type="video/mp4">
+<video id="stream" bind:this={stream}>
+    <source src={videoSrc}>
 
 </video>
 <div class="fixed bottom-0 p-1 w-full h-32  duration-300 hover:opacity-100 transition-opacity hover:pointer-events-auto" >
