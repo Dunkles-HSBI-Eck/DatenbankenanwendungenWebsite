@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-    import { ArrowLeft, JapaneseYenIcon } from '@lucide/svelte';
+    import { House } from '@lucide/svelte';
 	import { json } from '@sveltejs/kit';
 
     let email
@@ -28,7 +28,7 @@
 
 <main class="flex items-center justify-center min-h-screen bg-surface-950 relative">
     <a href="/" class="absolute top-6 left-6 flex items-center gap-2 text-secondary-400">
-        <ArrowLeft class="w-7 h-7 p-1 rounded hover:bg-surface-800" />
+        <House class="w-7 h-7 p-1 rounded hover:bg-surface-800" />
     </a>
     <form class="p-10 rounded-2xl w-full max-w-md flex flex-col gap-6 shadow-2xl bg-surface-900 border border-surface-800 backdrop-blur-md">
         <h2 class="text-3xl font-extrabold text-center mb-4 text-secondary-400 drop-shadow">Login</h2>
