@@ -1,119 +1,204 @@
 <script>
-    import { Slider } from '@skeletonlabs/skeleton-svelte';
+	import { Slider } from '@skeletonlabs/skeleton-svelte';
 
-    import { Play as IconPlay } from '@lucide/svelte';
-    import { Pause as IconPause } from '@lucide/svelte';
-    import { ArrowLeftFromLine as IconBack } from '@lucide/svelte';
+	import { Play as IconPlay } from '@lucide/svelte';
+	import { Pause as IconPause } from '@lucide/svelte';
+	import { ArrowLeftFromLine as IconBack } from '@lucide/svelte';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
-    import { Volume2 as IconSound } from '@lucide/svelte';
-    import { VolumeOff as IconMuted} from "@lucide/svelte";
+	import { VolumeOff, Volume1, Volume2 } from '@lucide/svelte';
+	import { Maximize, Minimize } from '@lucide/svelte';
+	import { ArrowLeft } from '@lucide/svelte';
+	import { fly, slide } from 'svelte/transition';
 
-    import Hls from 'hls.js';
+	import Hls from 'hls.js';
 
+	let data = {
+		video: {
+			title: 'Test Stream',
+			description: 'This is a test stream for demonstration purposes.',
+			thumbnail: 'https://via.placeholder.com/150',
+			src: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
+		}
+	};
 
+	let stream;
+	let streamContainer;
+	let currentTime = $state([0]);
+	let currentTimeFormatted = $derived(formatTime(currentTime[0]));
+	let duration = $state(0);
+	let durationFormatted = $derived(formatTime(duration));
+	let paused = $state(true);
+	let volume = $state(1);
+	let volumeSlider = $derived([volume]);
+	let volumeLast;
+	let volumeHover = $state(false);
+	let isFullscreen = $state(false);
+	let showOverlay = $state(true);
+	let overlayTimeout;
 
+	onMount(() => {
+		if (Hls.isSupported()) {
+			const hls = new Hls();
+			hls.loadSource(data.video.src);
+			hls.attachMedia(stream);
+			hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+				console.log('Media attached');
+			});
+		}
+	});
 
-    let videoSrc= "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
-    let barPercentage = $state(0);
-    let paused = $state(true);
-    let stream;
-    let streamDuration = $state(0);
-    let streamCurrentTime = $state(0);
-    let volume = $state(0);
-    
-    if(Hls.isSupported())
-    {
-        console.log('Hls is supported')
-    }
-    else
-    {
-        console.log("Hls is not supported");
-    }
-    
-    
-    function pauseClick(){
-        paused = !paused;
-        if(paused){
-            stream.pause();
-        }
-        else{
-            stream.play();
-            stream = document.getElementById("stream");
-            streamDuration = stream.duration;
-        }
+	$effect(() => {
+		if (paused) {
+			stream.pause();
+		} else {
+			stream.play();
+		}
+	});
 
-    }
+	function formatTime(seconds) {
+		seconds = Math.floor(seconds);
+		const hours = Math.floor(seconds / 3600);
+		const minutes = Math.floor((seconds % 3600) / 60);
+		const secs = seconds % 60;
 
-    function updateTime(s){
-        streamCurrentTime = s.currentTime;
-        if(streamDuration != 0)
-        {
-            barPercentage = [(streamCurrentTime/streamDuration) *1000];
-        }
-        
-        
-    }
-    onMount(() => {
-        streamDuration = stream.duration;
-        setInterval(updateTime, 500, stream);
-        
-        if(Hls.isSupported()){
-        const hls = new Hls();
-        hls.loadSource(videoSrc);
-        hls.attachMedia(stream);
-        hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-            console.log('Media attached');
-        });
-    }
+		if (hours > 0) {
+			return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+		}
 
-    })
+		return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+	}
 
-    function handleSliderChange(value) {
-    console.log("before:" + value.value[0]);
-    if (stream && stream.duration) {
-        stream.currentTime = (value.value[0] / 1000) * stream.duration;
-    }
-    barPercentage = [value.value[0]];
-    console.log("changed");
-    }
-    
-    function handleMuteButton(){
-        if(volume == [0]){
-            volume=[1];
-        }
-        else
-        {
-            volume=[0];
-        }
-    }
-    
-    
-
+	function overlay() {
+		showOverlay = true;
+		if (overlayTimeout) {
+			clearTimeout(overlayTimeout);
+		}
+		overlayTimeout = setTimeout(() => {
+			if (!paused) {
+				showOverlay = false;
+			}
+		}, 3000);
+	}
 </script>
-<div class="w-full h-screen">
-<video id="stream" bind:this={stream} class="w-full h-full object-contain object-center" bind:volume={volume}>
-    <source src={videoSrc}>
-</video>
-</div>
-<div class="fixed bottom-0 p-1 w-full h-32 bg-primary-500 duration-300 opacity-0 hover:opacity-100 transition-opacity hover:pointer-events-auto " >
-    
-      <div class="p-10">  
-    <Slider name="stream" id="progressBar" bind:value={barPercentage} disabled={false} readOnly={false} onValueChange={handleSliderChange} max={1000} meterBg="bg-secondary-500"  thumbSize="size-4"  thumbClasses="duration-200 opacity-0 hover:opacity-100" class="flex right-0"/>
-        </div>
-        <div class="flex flex-nowrap whitespace-nowrap">
-    <button class="btn preset-filled-tritiary-500 ml-10" onclick={pauseClick}>{#if paused}<IconPlay/>{:else} <IconPause/>{/if} </button>
 
-    <span class="flex ml-10">
-        {new Date(streamCurrentTime * 1000).toISOString().slice(11, 19)}
-        {new Date(streamDuration * 1000).toISOString().slice(11, 19)}
-    </span>
-    
-        <div class="flex w-48">
-        <button class="btn preset-filled-tritiary-500 ml-10 right-0" onclick={handleMuteButton}>{#if volume == 0} <IconMuted height=10/> {:else} <IconSound height=10/>{/if}</button>
-        </div>
-
-    <button class="btn preset-filled-tritiary-500 ml-10 right-0 flex-none"><IconBack height=10/></button>
-</div>
-
+<div
+	bind:this={streamContainer}
+	onmousemove={overlay}
+	role="region"
+	aria-label="Video player container"
+    class="text-secondary-500"
+>
+	{#if showOverlay}
+		<div
+			transition:fly={{ y: -100, duration: 200 }}
+			class="fixed top-0 left-0 w-full p-4 z-50 flex items-center bg-gradient-to-b from-black to-transparent space-x-4"
+		>
+			<button onclick={() => history.back()} aria-label="Go back">
+				<ArrowLeft class="h-6 w-6" />
+			</button>
+			<h1>{data.video.title}</h1>
+		</div>
+	{/if}
+	<video
+		id="stream"
+		bind:this={stream}
+		onclick={() => (paused = !paused)}
+		ontimeupdate={(e) => (currentTime[0] = e.target.currentTime)}
+		ondurationchange={(e) => (duration = e.target.duration)}
+		onplay={() => (paused = false)}
+		onpause={() => (paused = true)}
+		bind:volume
+		class="w-screen h-screen bg-black"
+	></video>
+	{#if showOverlay}
+		<div
+			transition:fly={{ y: 100, duration: 200 }}
+			class="fixed bottom-0 left-0 w-full p-4 z-50 bg-gradient-to-t from-black to-transparent space-y-2"
+		>
+			<div class="flex items-center space-x-4">
+				<span>{currentTimeFormatted}</span>
+				<Slider
+					class="w-full"
+					bind:value={currentTime}
+					max={duration}
+					thumbSize="p-1.5"
+                    meterBg="bg-primary-500"
+                    thumbRingColor="text-secondary-500"
+                    meter
+					onValueChange={(e) => {
+						stream.currentTime = e.value[0];
+						currentTime[0] = e.value[0];
+					}}
+				/>
+				<span>{durationFormatted}</span>
+			</div>
+			<div class="flex items-center justify-between">
+				<div class="flex items-center space-x-4">
+					<button onclick={() => (paused = !paused)}>
+						{#if paused}
+							<IconPlay class="h-6 w-6" />
+						{:else}
+							<IconPause class="h-6 w-6" />
+						{/if}
+					</button>
+					<div
+						class="flex items-center"
+						role="group"
+						onmouseenter={() => (volumeHover = true)}
+						onmouseleave={() => (volumeHover = false)}
+					>
+						<button
+							onclick={() => {
+								if (volume !== 0) {
+									volumeLast = volume;
+								}
+								volume = volume === 0 ? volumeLast : 0;
+							}}
+						>
+							{#if volume === 0}
+								<VolumeOff class="h-6 w-6" />
+							{:else if volume < 0.5}
+								<Volume1 class="h-6 w-6" />
+							{:else}
+								<Volume2 class="h-6 w-6" />
+							{/if}
+						</button>
+						{#if volumeHover}
+							<div transition:slide={{ axis: 'x', duration: 100 }} class="w-24 ml-2">
+								<Slider
+									class="w-full"
+									bind:value={volumeSlider}
+									min={0}
+									max={1}
+									step={0.01}
+									thumbSize=""
+									onValueChange={(e) => {
+										volume = e.value[0];
+									}}
+								/>
+							</div>
+						{/if}
+					</div>
+				</div>
+				<button
+					onclick={() => {
+						if (isFullscreen) {
+							isFullscreen = false;
+							document.exitFullscreen();
+						} else {
+							isFullscreen = true;
+							streamContainer.requestFullscreen();
+						}
+					}}
+				>
+					{#if isFullscreen}
+						<Minimize class="h-6 w-6" />
+					{:else}
+						<Maximize class="h-6 w-6" />
+					{/if}
+				</button>
+			</div>
+		</div>
+	{/if}
 </div>
