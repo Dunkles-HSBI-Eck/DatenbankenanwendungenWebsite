@@ -87,13 +87,14 @@
 	onmousemove={overlay}
 	role="region"
 	aria-label="Video player container"
+    class="text-secondary-500"
 >
 	{#if showOverlay}
 		<div
 			transition:fly={{ y: -100, duration: 200 }}
 			class="fixed top-0 left-0 w-full p-4 z-50 flex items-center bg-gradient-to-b from-black to-transparent space-x-4"
 		>
-			<button onclick={() => history.back()} aria-label="Go back" class="text-white">
+			<button onclick={() => history.back()} aria-label="Go back">
 				<ArrowLeft class="h-6 w-6" />
 			</button>
 			<h1>{data.video.title}</h1>
@@ -122,6 +123,9 @@
 					bind:value={currentTime}
 					max={duration}
 					thumbSize="p-1.5"
+                    meterBg="bg-primary-500"
+                    thumbRingColor="text-secondary-500"
+                    meter
 					onValueChange={(e) => {
 						stream.currentTime = e.value[0];
 						currentTime[0] = e.value[0];
