@@ -1,11 +1,8 @@
 <script>
 	import { Slider } from '@skeletonlabs/skeleton-svelte';
 
-	import { Play as IconPlay } from '@lucide/svelte';
-	import { Pause as IconPause } from '@lucide/svelte';
-	import { ArrowLeftFromLine as IconBack } from '@lucide/svelte';
 	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
+    import { Play, Pause } from '@lucide/svelte';
 	import { VolumeOff, Volume1, Volume2 } from '@lucide/svelte';
 	import { Maximize, Minimize } from '@lucide/svelte';
 	import { ArrowLeft } from '@lucide/svelte';
@@ -139,9 +136,9 @@
 				<div class="flex items-center space-x-4">
 					<button onclick={() => (paused = !paused)}>
 						{#if paused}
-							<IconPlay class="h-6 w-6" />
+							<Play class="h-6 w-6" />
 						{:else}
-							<IconPause class="h-6 w-6" />
+							<Pause class="h-6 w-6" />
 						{/if}
 					</button>
 					<div class="flex items-center" role="group" onmouseenter={() => (volumeHover = true)}>
@@ -169,7 +166,7 @@
 									min={0}
 									max={1}
 									step={0.01}
-                                    meterBg="bg-primary-500"
+									meterBg="bg-primary-500"
 									thumbSize=""
 									onValueChange={(e) => {
 										volume = e.value[0];
