@@ -2,7 +2,7 @@
 	import { Slider } from '@skeletonlabs/skeleton-svelte';
 
 	import { onMount } from 'svelte';
-    import { Play, Pause } from '@lucide/svelte';
+	import { Play, Pause } from '@lucide/svelte';
 	import { VolumeOff, Volume1, Volume2 } from '@lucide/svelte';
 	import { Maximize, Minimize } from '@lucide/svelte';
 	import { ArrowLeft } from '@lucide/svelte';
@@ -89,7 +89,7 @@
 	{#if showOverlay}
 		<div
 			transition:fly={{ y: -100, duration: 200 }}
-			class="fixed top-0 left-0 w-full p-4 z-50 flex items-center bg-gradient-to-b from-black to-transparent space-x-4"
+			class="fixed top-0 left-0 z-50 flex w-full items-center space-x-4 bg-gradient-to-b from-black to-transparent p-4"
 		>
 			<button onclick={() => history.back()} aria-label="Go back">
 				<ArrowLeft class="h-6 w-6" />
@@ -106,14 +106,14 @@
 		onplay={() => (paused = false)}
 		onpause={() => (paused = true)}
 		bind:volume
-		class="w-screen h-screen bg-black"
+		class="h-screen w-screen bg-black"
 	></video>
 	{#if showOverlay}
 		<div
 			transition:fly={{ y: 100, duration: 200 }}
 			role="group"
 			onmouseleave={() => (volumeHover = false)}
-			class="fixed bottom-0 left-0 w-full p-4 z-50 bg-gradient-to-t from-black to-transparent space-y-2"
+			class="fixed bottom-0 left-0 z-50 w-full space-y-2 bg-gradient-to-t from-black to-transparent p-4"
 		>
 			<div class="flex items-center space-x-4">
 				<span>{currentTimeFormatted}</span>
@@ -159,7 +159,7 @@
 							{/if}
 						</button>
 						{#if volumeHover}
-							<div transition:slide={{ axis: 'x', duration: 100 }} class="w-24 ml-2">
+							<div transition:slide={{ axis: 'x', duration: 100 }} class="ml-2 w-24">
 								<Slider
 									class="w-full"
 									bind:value={volumeSlider}

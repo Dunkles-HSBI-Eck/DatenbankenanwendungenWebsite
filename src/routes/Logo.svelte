@@ -1,6 +1,10 @@
 <script>
-
 </script>
+
 <div>
-    <img class="w-24 h-24 rounded-full border-4 border-primary-500 shadow-lg mb-2 bg-tertiary-500" src="Logo.png" alt="Logo">
+	<img
+		class="border-primary-500 bg-tertiary-500 mb-2 h-24 w-24 rounded-full border-4 shadow-lg"
+		src="Logo.png"
+		alt="Logo"
+	/>
 </div>

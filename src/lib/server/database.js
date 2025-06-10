@@ -1,72 +1,62 @@
-import { Pool } from "pg";
+import { Pool } from 'pg';
 import {
-    POSTGRES_USER,
-    POSTGRES_PASSWORD,
-    POSTGRES_IP,
-    POSTGRES_PORT,
-    DATABASE_NAME
+	POSTGRES_USER,
+	POSTGRES_PASSWORD,
+	POSTGRES_IP,
+	POSTGRES_PORT,
+	DATABASE_NAME
 } from '$env/static/private';
-import { DuplicateEmailError, GenricDatabaseError, NoUserFound } from "$lib/server/error.js";
-
+import { DuplicateEmailError, GenricDatabaseError, NoUserFound } from '$lib/server/error.js';
 
 const pool = new Pool({
-    user: POSTGRES_USER,
-    password: POSTGRES_PASSWORD,
-    host: POSTGRES_IP,
-    port: POSTGRES_PORT,
-    database: DATABASE_NAME
+	user: POSTGRES_USER,
+	password: POSTGRES_PASSWORD,
+	host: POSTGRES_IP,
+	port: POSTGRES_PORT,
+	database: DATABASE_NAME
 });
 
 export async function registerUser(email, hash, salt) {
-    try {
-        const result = await pool.query(
-            'CALL register_user($1, $2, $3, null)',
-            [email, hash, salt]
-        )
-        return Number.parseInt(result.rows[0].membership_id_return); 
-    } catch (error) {
-        if(error.message.includes('duplicate email')) {
-            throw new DuplicateEmailError;
-        }
-        console.error('Error registering user:', error);
-        throw new GenricDatabaseError('Database error while registering user');
-    }
+	try {
+		const result = await pool.query('CALL register_user($1, $2, $3, null)', [email, hash, salt]);
+		return Number.parseInt(result.rows[0].membership_id_return);
+	} catch (error) {
+		if (error.message.includes('duplicate email')) {
+			throw new DuplicateEmailError();
+		}
+		console.error('Error registering user:', error);
+		throw new GenricDatabaseError('Database error while registering user');
+	}
 }
 
 export async function getSaltByEmail(email) {
-    try {
-        const result = await pool.query(
-            'CALL get_salt_by_email($1, null)',
-            [email]
-        );
-        if (result.rows[0].salt_return === null) {
-            throw new NoUserFound('No user found with the provided email');
-        }
-        return result.rows[0].salt_return;
-    } catch (error) {
-        if (error instanceof NoUserFound) {
-            throw error;
-        }
-        console.error('Error fetching salt:', error);
-        throw new GenricDatabaseError('Database error while fetching salt');
-    }
+	try {
+		const result = await pool.query('CALL get_salt_by_email($1, null)', [email]);
+		if (result.rows[0].salt_return === null) {
+			throw new NoUserFound('No user found with the provided email');
+		}
+		return result.rows[0].salt_return;
+	} catch (error) {
+		if (error instanceof NoUserFound) {
+			throw error;
+		}
+		console.error('Error fetching salt:', error);
+		throw new GenricDatabaseError('Database error while fetching salt');
+	}
 }
 
 export async function verifyUser(email, hash) {
-    try {
-        const result = await pool.query(
-            'CALL verify_user($1, $2, null)',
-            [email, hash]
-        );
-        if (result.rows[0].membership_id_return === null) {
-            throw new NoUserFound('No user found with the provided credentials');
-        }
-        return Number.parseInt(result.rows[0].membership_id_return);
-    } catch (error) {
-    if (error instanceof NoUserFound) {
-            throw error;
-        }
-        console.error('Error verifying user:', error);
-        throw new GenricDatabaseError('Database error while verifying user');
-    }
+	try {
+		const result = await pool.query('CALL verify_user($1, $2, null)', [email, hash]);
+		if (result.rows[0].membership_id_return === null) {
+			throw new NoUserFound('No user found with the provided credentials');
+		}
+		return Number.parseInt(result.rows[0].membership_id_return);
+	} catch (error) {
+		if (error instanceof NoUserFound) {
+			throw error;
+		}
+		console.error('Error verifying user:', error);
+		throw new GenricDatabaseError('Database error while verifying user');
+	}
 }
