@@ -63,11 +63,12 @@
         </select>
     </div>
     <div class="flex items-center h-20">
-        <img src={profilePic} alt="Profile" class="w-14 h-14 rounded-full border-2 border-secondary-400 object-cover shadow-md hover:scale-105 transition-transform duration-200 bg-surface/80 backdrop-blur-md mr-6" on:click={handleProfileClick} style="cursor:pointer;" />
+        <button type="button" on:click={handleProfileClick} class="mr-6 rounded-full focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Go to profile">
+            <img src={profilePic} alt="Profile" class="w-14 h-14 rounded-full border-2 border-secondary-400 object-cover shadow-md hover:scale-105 transition-transform duration-200 bg-surface/80 backdrop-blur-md" />
+        </button>
     </div>
 </header>
 
-<!-- Cards grid -->
 <div class="flex flex-wrap gap-6 justify-center">
     {#if isLoading}
         <span class="text-secondary-400 text-lg mt-8">Loading...</span>
