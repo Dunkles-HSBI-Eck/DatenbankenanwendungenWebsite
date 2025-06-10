@@ -87,7 +87,7 @@
 	onmousemove={overlay}
 	role="region"
 	aria-label="Video player container"
-    class="text-secondary-500"
+	class="text-secondary-500"
 >
 	{#if showOverlay}
 		<div
@@ -114,6 +114,8 @@
 	{#if showOverlay}
 		<div
 			transition:fly={{ y: 100, duration: 200 }}
+			role="group"
+			onmouseleave={() => (volumeHover = false)}
 			class="fixed bottom-0 left-0 w-full p-4 z-50 bg-gradient-to-t from-black to-transparent space-y-2"
 		>
 			<div class="flex items-center space-x-4">
@@ -123,9 +125,9 @@
 					bind:value={currentTime}
 					max={duration}
 					thumbSize="p-1.5"
-                    meterBg="bg-primary-500"
-                    thumbRingColor="text-secondary-500"
-                    meter
+					meterBg="bg-primary-500"
+					thumbRingColor="text-secondary-500"
+					meter
 					onValueChange={(e) => {
 						stream.currentTime = e.value[0];
 						currentTime[0] = e.value[0];
@@ -142,12 +144,7 @@
 							<IconPause class="h-6 w-6" />
 						{/if}
 					</button>
-					<div
-						class="flex items-center"
-						role="group"
-						onmouseenter={() => (volumeHover = true)}
-						onmouseleave={() => (volumeHover = false)}
-					>
+					<div class="flex items-center" role="group" onmouseenter={() => (volumeHover = true)}>
 						<button
 							onclick={() => {
 								if (volume !== 0) {
@@ -172,6 +169,7 @@
 									min={0}
 									max={1}
 									step={0.01}
+                                    meterBg="bg-primary-500"
 									thumbSize=""
 									onValueChange={(e) => {
 										volume = e.value[0];
