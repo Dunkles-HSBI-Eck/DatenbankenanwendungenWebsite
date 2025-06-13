@@ -1,19 +1,13 @@
 import { Pool } from 'pg';
-import {
-	POSTGRES_USER,
-	POSTGRES_PASSWORD,
-	POSTGRES_IP,
-	POSTGRES_PORT,
-	DATABASE_NAME
-} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { DuplicateEmailError, GenricDatabaseError, NoUserFound } from '$lib/server/error.js';
 
 const pool = new Pool({
-	user: POSTGRES_USER,
-	password: POSTGRES_PASSWORD,
-	host: POSTGRES_IP,
-	port: POSTGRES_PORT,
-	database: DATABASE_NAME
+    user: env.POSTGRES_USER,
+    password: env.POSTGRES_PASSWORD,
+    host: env.POSTGRES_IP,
+    port: env.POSTGRES_PORT,
+    database: env.DATABASE_NAME
 });
 
 export async function registerUser(email, hash, salt) {
