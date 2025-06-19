@@ -30,8 +30,7 @@ export async function verifyJWT(token) {
     try {
         const decoded = await jwt.verify(token, env.JWT_SECRET);
         return decoded.user_id;
-    } catch (error) {
-        console.error('JWT verification failed:', error);
+    } catch {
         return null;
     }
 }
