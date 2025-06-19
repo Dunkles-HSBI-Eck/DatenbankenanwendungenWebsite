@@ -1,5 +1,5 @@
 <script>
-	import LogoBtn from "../LogoBtn.svelte";
+	import LogoBtn from "../../LogoBtn.svelte";
     import {goto} from "$app/navigation"
     let { profilePic, data } = $props();
     
