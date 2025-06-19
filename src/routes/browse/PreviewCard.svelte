@@ -8,7 +8,7 @@
 
   // Default onClick navigates to the correct URL with the actual id
   if (!onClick) {
-    onClick = () => goto(`/preview/${id}`);
+    onClick = () => goto(`/movie/${id}`);
   }
 </script>
 
