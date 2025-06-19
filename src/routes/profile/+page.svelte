@@ -5,13 +5,14 @@
 	import { ArrowLeft } from '@lucide/svelte';
 	import { onMount } from 'svelte';
 
-    const BorrowedTableData = [
+  export let data;
+    let BorrowedTableData = [
         { titel: 'Test', startDate: '10.05.2025', endDate: '10.06.2025' },
         { titel: 'Film', startDate: '10.05.2025', endDate: '10.06.2025' },
         { titel: 'Grrr', startDate: '10.05.2025', endDate: '10.06.2025' }
     ];
 
-    const ReservedTableData = [
+    let ReservedTableData = [
         { titel: 'bdfbd', availible: true },
         { titel: 'asdasd', availible: false }
     ];
@@ -23,26 +24,26 @@
     let planIndex = plans.indexOf(subscriptionPlanName);
 
     async function logout() {
-        const respond = await fetch('/api/v1/logout', {
-			method: 'Get'
-		});
+          const respond = await fetch('/api/v1/logout', {
+        method: 'Get'
+      });
 
-		if (respond.ok) {
-			goto('/login');
-		}
+      if (respond.ok) {
+        goto('/login');
+      }
 
-		if (!respond.ok) {
-			console.log('not found');
-		}
+      if (!respond.ok) {
+        console.log('not found');
+      }
     }
 
-	onMount(async () => {
+	  onMount(async () => {
 		if (data.userId) {
 
-		} else {
-			goto('/login');
-		}
-	});
+		  } else {
+			  goto('/login');
+		  }
+	  });
 </script>
 
 <div class="flex flex-col items-center gap-6 mt-8 relative w-full">

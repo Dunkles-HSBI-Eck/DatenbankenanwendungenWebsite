@@ -5,7 +5,7 @@
 <nav class="sticky top-0 z-10 flex items-center justify-between mb-8 px-2 w-full bg-surface/80 backdrop-blur-md border-b border-secondary-400">
 	<!-- Left -->
 	<div class="justify-start">
-		<LogoBtn/>
+		<LogoBtn href="/"/>
 	</div>
 
 	<!-- Mid -->
