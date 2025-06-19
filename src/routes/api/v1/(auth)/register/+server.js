@@ -5,10 +5,12 @@ import { DuplicateEmailError } from '$lib/server/error.js';
 
 const REGEX_EMAIL =
 	/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
-const REGEX_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/; // At least 8 characters, one uppercase, one lowercase, one number
+const REGEX_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/; // At least 8 characters, one uppercase, one lowercase, one number
 
 export async function POST({ request }) {
-	const { email, password } = await request.json();
+	let { email, password } = await request.json();
+
+    email = email?.trim().toLowerCase(); // Normalize email to lowercase and trim whitespace
 
 	// Check if email and password are provided
 	if (!email || !password) {

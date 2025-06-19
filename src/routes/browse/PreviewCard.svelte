@@ -17,7 +17,7 @@
   on:click={onClick}
   aria-label={name}>
   <div class="relative w-full h-[124px] bg-neutral-800 flex items-center justify-center">
-    <img src="/api/v1/covers/{previewImage}" alt={name} class="w-full h-[124px] object-cover block" />
+    <img src="/api/v1/images/covers/{previewImage}" alt={name} class="w-full h-[124px] object-cover block" />
     <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-neutral-900/95 via-neutral-900/60 to-transparent px-4 pb-2 pt-6 flex items-end min-h-[40px]">
       <span class="text-secondary-400 text-base font-semibold drop-shadow-md truncate w-full">{name}</span>
     </div>
