@@ -2,14 +2,19 @@
 	import { goto } from '$app/navigation';
 	import { House } from '@lucide/svelte';
 	import { json } from '@sveltejs/kit';
+	import { ProgressRing } from '@skeletonlabs/skeleton-svelte';
 
-	let email;
-	let password;
-	let confirmPassword;
+	let email = $state();
+	let password = $state();
+	let confirmPassword = $state();
+	let registerFaliureMessage = $state("");
+	let buttonEnabled = $state(true);
 
 	async function register() {
+		buttonEnabled = false;
 		if (password !== confirmPassword) {
-			alert('Passwords do not match');
+			registerFaliureMessage = "Passwords do not match!";
+			buttonEnabled=true;
 			return;
 		}
 		const respond = await fetch('/api/v1/register', {
@@ -26,7 +31,10 @@
 
 		if (!respond.ok) {
 			console.log('registration failed');
+
+			registerFaliureMessage = "registration failed."
 		}
+		buttonEnabled = true;
 	}
 </script>
 
@@ -71,12 +79,25 @@
 				required
 			/>
 		</label>
-		<button
+
+		<p class="text-primary-500">{registerFaliureMessage}</p>
+		{#if buttonEnabled}
+			<button
 			type="submit"
 			class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 rounded-xl shadow-md focus:ring-2"
 		>
 			Register
 		</button>
+		{:else}
+			<button
+			class="btn btn-lg btn-block text-secondary-400 bg-primary-900 rounded-xl shadow-md "
+		>
+			Register <ProgressRing value={null} size="size-5" meterStroke="stroke-secondary-600-400" trackStroke="stroke-primary-50-950" />
+		</button>
+		{/if}
+		
+
+
 		<div class="text-primary-400 mt-2 text-center">
 			<a href="/login" class="hover:text-primary-200 transition-colors duration-150 hover:underline"
 				>Already have an account? Login</a
