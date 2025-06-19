@@ -16,7 +16,7 @@
 		});
 
 		if (respond.ok) {
-			goto('/');
+			goto('/browse');
 		}
 
 		if (!respond.ok) {
