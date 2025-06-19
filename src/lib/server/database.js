@@ -71,3 +71,19 @@ export async function getMovies(limit, offset) {
         throw new GenricDatabaseError('Database error while fetching movies');
     }
 }
+
+export async function getMovieById(movie_id) {
+    try {
+        const result = await pool.query(
+            'CALL get_movie($1, null)',
+            [movie_id]
+        );
+        if (result.rows.length === 0) {
+            return null; // No movie found
+        }
+        return result.rows[0].movie_info;
+    } catch (error) {
+        console.error('Error fetching movie by ID:', error);
+        throw new GenricDatabaseError('Database error while fetching movie by ID');
+    }
+}
