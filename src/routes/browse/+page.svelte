@@ -16,12 +16,8 @@
 
     let cards = [];
 
-    let filterOptions = [
-        { value: "all", label: "All" },
-        { value: "test", label: "Test" },
-        { value: "second", label: "Second" },
-        { value: "final", label: "Final" }
-    ];
+    let filterOptions = [];
+    let genres = [];
 
     function handleProfileClick() {
         if (data.userId) {
@@ -67,8 +63,15 @@
             isLoading = false;
         }
     }
+    async function fetchGenres() {
+        const response = await fetch('/api/v1/genres');
+        const data = await response.json();
+        genres = data.genres;
+        filterOptions = [{ label: "All", value: "all" }, ...genres.map(genre => ({ label: genre.name, value: genre.id }))];
+    }
 
     onMount(() => {
+        fetchGenres();
         fetchData();
     });
 </script>
