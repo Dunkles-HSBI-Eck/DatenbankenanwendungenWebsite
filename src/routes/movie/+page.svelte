@@ -3,6 +3,8 @@
 	import { TvMinimalPlay } from '@lucide/svelte';
 	import { Undo2 as ReturnIcon } from '@lucide/svelte';
 	import { onMount } from 'svelte';
+	import TopBar from './TopBar.svelte';
+	let {data} = $props();
 
 	let title = $state('Die Feuerzangenbowle');
 	let thumbnailSrc = $state('https://www.daserste.de/allgemein/sendungen/sendung/die-feuerzangenbowle-100~_v-facebook1200_2bbce2.jpg');
@@ -16,7 +18,7 @@
 	let userOwnsMovie = $state(false);
 	let cast = $state([{task:"Directed by", name:["Helmut Weiss"]}, {task:"Written by", name:["Heinrich Spoerl"]}, {task:"Starring", name:["Heinz Rühmann", "Erich Ponto"]}]);
 
-
+	 
 	let focusOnLoad;
 
 	function formatTime(seconds) {
@@ -35,9 +37,12 @@
 
 	onMount(() => {
 		focusOnLoad.scrollIntoView();
+		console.log(data);
 	});
-</script>
 
+	
+</script>
+<TopBar profilePic="Logo.png" data={data} />
 <main>
 	<div>
 		<img src={thumbnailSrc} alt="thumbnail" class="w-full fixed -z-30" />
