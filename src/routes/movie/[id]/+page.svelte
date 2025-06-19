@@ -8,17 +8,17 @@
 	let {data} = $props();
 	let { movieId } = data;
 
-	let title = $state('Die Feuerzangenbowle');
-	let thumbnailSrc = $state('https://www.daserste.de/allgemein/sendungen/sendung/die-feuerzangenbowle-100~_v-facebook1200_2bbce2.jpg');
-	let description = $state("Die Rahmenhandlung des Films beginnt mit einer Runde vier älterer Herren, die sich bei einer Feuerzangenbowle Geschichten aus ihrer Schulzeit erzählen. Der erfolgreiche junge Schriftsteller Dr. Johannes Pfeiffer stößt erst später zu der geselligen Runde. Der Spaß, den seine Freunde in ihrer Schulzeit hatten, ist ihm fremd. Er blieb Pfeiffer versagt, da er von einem Hauslehrer unterrichtet wurde. Seine Freunde animieren ihn daraufhin, das Versäumte nachzuholen und als Oberschüler verkleidet für ein paar Wochen eine richtige Schule zu besuchen. Die Wahl fällt auf ein Gymnasium in der kleinen Stadt Babenberg. ");
-	let preis = $state("3,99€")
-	let licencesAvalable = $state(20);
-	let amountDays = $state(20);
-	let year = $state(1944);
-	let tags = $state(["Komödie", "Kirans Mutter"]);
-	let length = $state(5640);
-	let userOwnsMovie = $state(false);
-	let cast = $state([{task:"Directed by", name:["Helmut Weiss"]}, {task:"Written by", name:["Heinrich Spoerl"]}, {task:"Starring", name:["Heinz Rühmann", "Erich Ponto"]}]);
+	let title = $state();
+	let thumbnailSrc = $state();
+	let description = $state();
+	let preis = $state()
+	let licencesAvalable = $state();
+	let amountDays = $state();
+	let year = $state();
+	let tags = $state();
+	let length = $state();
+	let userOwnsMovie = $state();
+	let cast = $state();
 	 
 	let focusOnLoad;
 
@@ -34,10 +34,29 @@
 
 		return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
 	}
+	async function fetchMovieInfos() {
+		const response = await fetch(`/api/v1/movies/${movieId}`);
+		let movie = await response.json();
+		console.log(movie);
+		title = movie.title;
+		thumbnailSrc = `/api/v1/images/banners/${movie.banner}`;
+		description = movie.description;
+		preis = movie.price;
+		year = movie.release;
+		tags = movie.genres;
+		licencesAvalable = movie.available_licenses;
+		
+		// Example: combine cast categories
+		cast = [
+			{ task: "Directors", name: movie.directors },
+			{ task: "Writers", name: movie.writers },
+			{ task: "Actors", name: movie.actors }
+		];
+	}
 
 
 	onMount(() => {
-
+		fetchMovieInfos();
 		focusOnLoad.scrollIntoView();
 		console.log(data);
 		console.log(movieId);

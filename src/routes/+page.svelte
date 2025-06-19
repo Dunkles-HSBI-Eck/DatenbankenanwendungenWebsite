@@ -1,10 +1,11 @@
 <script>
 	import LogoBtn from './LogoBtn.svelte';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	let bottomText = $state("");
-	let avalableTexts = ["Stream Tousands of Vintage Movies Today.", "Relive the Golden Age — One Film at a Time.", "Stream Timeless Classics, Anytime.", "Where Vintage Cinema Comes Back to Life.", "Feel the Magic of a Bygone Era.", "Rediscover the Movies That Made History.", "The Past, Perfectly Preserved.", "Old Hollywood, New Convenience.", "Where Every Film Is a Classic.","Stream the Stories That Shaped Cinema.", "Elegance. Drama. History. All in One Place.", "Timeless Tales, Ready to Stream.", "Old Films, New Life."];
+	let avalableTexts = ["Stream Tousands of Vintage Movies Today.", "Relive the Golden Age — One Film at a Time.", "Stream Timeless Classics, Anytime.", "Where Vintage Cinema Comes Back to Life.", "Feel the Magic of a Bygone Era.", "Rediscover the Movies That Made History.", "The Past, Perfectly Preserved.", "Old Hollywood, New Convenience.", "Where Every Film Is a Classic.","Stream the Stories That Shaped Cinema.", "Elegance. Drama. History. All in One Place.", "Timeless Tales, Ready to Stream.", "Old Films, New Life.", "Becking, bitte gib 1"];
 	let currentWord = 0;
+	let timeoutId;
 
 	function typeNewWord()
 	{
@@ -21,7 +22,7 @@
 		{
 			setTimeout(typeLetter, 100 * i +timeToRemove + 1000);
 		}
-		setTimeout(typeNewWord, 7000 + timeToRemove + (avalableTexts[currentWord].length * 100));
+		timeoutId = setTimeout(typeNewWord, 7000 + timeToRemove + (avalableTexts[currentWord].length * 100));
 	}
 
 	function removeLetter()
@@ -39,6 +40,11 @@
 		typeNewWord();
 	});
 	
+	onDestroy(() => {
+		clearTimeout(timeoutId);
+	});
+	
+
 </script>
 
 <nav class="sticky top-0 z-10 flex items-center justify-between mb-8 px-2 w-full bg-surface/80 backdrop-blur-md border-b border-surface-800 bg-surface-900 rounded">
