@@ -1,8 +1,5 @@
 <script>
     import PlanPreview from './PlanPreview.svelte';
-    import { goto } from '$app/navigation';
-    import { onMount } from 'svelte';
-    export let data;
 
     let subscriptions = [
         {id: 1, name: "Free", price: 0.0, priceReduction:0.0},
@@ -12,14 +9,6 @@
     ];
 
     let currentPlanID = 1;
-    onMount(async () => {
-        if (data.userId) {
-            // user is logged in
-            // to do set currentPlan
-        } else {
-            goto('/login');
-        }
-    });
 </script>
 
 <div class="flex gap-4 m-5 overflow-x-visible py-4 justify-center items-center">

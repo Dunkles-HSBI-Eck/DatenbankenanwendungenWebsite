@@ -1,5 +1,4 @@
 <script>
-	import { goto } from '$app/navigation';
 	import Borrowed from './Borrowed.svelte';
 	import Reserved from './Reserved.svelte';
 	import { ArrowLeft } from '@lucide/svelte';
@@ -23,27 +22,6 @@
 	let subscriptionPlanName = 'free';
 	let plans = ['free', 'pro', 'ultra'];
 	let planIndex = plans.indexOf(subscriptionPlanName);
-
-	async function logout() {
-		const respond = await fetch('/api/v1/logout', {
-			method: 'Get'
-		});
-
-		if (respond.ok) {
-			goto('/');
-		}
-
-		if (!respond.ok) {
-			console.log('not found');
-		}
-	}
-
-	onMount(async () => {
-		if (data.userId) {
-		} else {
-			goto('/login');
-		}
-	});
 </script>
 
 <TopBar profilePic="Logo.png" {data} />
@@ -61,13 +39,13 @@
 				<div class="mt-4 flex flex-col gap-2">
 					<a class="btn bg-primary-500 text-secondary-400 self-start" href="/payment">
 						Add Payment Option
-          </a>
+                    </a>
 					<a class="btn bg-primary-500 text-secondary-400 self-start" href="/subscriptions">
 						Change plan
 					</a>
-					<button class="btn bg-primary-500 text-secondary-400 self-start" type="button" onclick={logout}>
+					<a class="btn bg-primary-500 text-secondary-400 self-start" href="/api/v1/logout">
 						Logout
-					</button>
+					</a>
 				</div>
 			</div>
 			<div class="card bg-surface-950 border-surface-200-800 mb-2 flex-1 border-[1px] p-6">

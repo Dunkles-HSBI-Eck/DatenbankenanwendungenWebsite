@@ -1,18 +1,6 @@
 <script>
 	import LogoBtn from './LogoBtn.svelte';
-	import {goto} from "$app/navigation";
 	import { onMount } from 'svelte';
-	let {data} = $props();
-
-
-	onMount(() => {
-		if (data) {
-			if(data.userId)
-			{
-            	goto('/browse');
-			}
-        }
-	});
 
 	let bottomText = $state("");
 	let avalableTexts = ["Stream Tousands of Vintage Movies Today.", "Relive the Golden Age — One Film at a Time.", "Stream Timeless Classics, Anytime.", "Where Vintage Cinema Comes Back to Life.", "Feel the Magic of a Bygone Era.", "Rediscover the Movies That Made History.", "The Past, Perfectly Preserved.", "Old Hollywood, New Convenience.", "Where Every Film Is a Classic.","Stream the Stories That Shaped Cinema.", "Elegance. Drama. History. All in One Place.", "Timeless Tales, Ready to Stream.", "Old Films, New Life."];

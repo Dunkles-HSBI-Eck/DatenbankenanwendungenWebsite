@@ -1,10 +1,7 @@
 <script>
     import PreviewCard from "./PreviewCard.svelte";
     import { page } from '$app/stores';
-    import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
-
-    export let data;
 
     let search = "";
     let filter = "all";
@@ -22,14 +19,6 @@
         { value: "second", label: "Second" },
         { value: "final", label: "Final" }
     ];
-
-    function handleProfileClick() {
-        if (data.userId) {
-            goto('/profile');
-        } else {
-            goto('/login');
-        }
-    }
 
     // Debounce logic
     let debounceTimeout;
@@ -89,9 +78,9 @@
         </select>
     </div>
     <div class="flex items-center h-20">
-        <button type="button" on:click={handleProfileClick} class="mr-6 rounded-full focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Go to profile">
+        <a href="/profile" class="mr-6 rounded-full focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Go to profile">
             <img src={profilePic} alt="Profile" class="w-14 h-14 rounded-full border-2 border-secondary-400 object-cover shadow-md hover:scale-105 transition-transform duration-200 bg-surface/80 backdrop-blur-md" />
-        </button>
+        </a>
     </div>
 </header>
 
