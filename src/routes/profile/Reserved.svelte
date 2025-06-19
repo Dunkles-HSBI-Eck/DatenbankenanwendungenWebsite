@@ -4,6 +4,9 @@
 
 <div class="card rounded-2xl w-full">
   <div class="text-sm font-medium mb-2 text-secondary-400 text-center opacity-70">
+    Vorgemerkte Filme:
+  </div>
+  <div class="text-sm font-medium mb-2 text-secondary-400 text-center opacity-70">
     {tableData.length}
   </div>
   <div class="flex flex-col gap-4 items-center">
