@@ -30,7 +30,7 @@
 		});
 
 		if (respond.ok) {
-			goto('/login');
+			goto('/');
 		}
 
 		if (!respond.ok) {

@@ -45,7 +45,7 @@
 
 	
 </script>
-<TopBar profilePic="Logo.png" data={data} />
+<TopBar profilePic="/Logo.png" data={data} />
 <main>
 	<div>
 		<img src={thumbnailSrc} alt="thumbnail" class="w-full fixed -z-30" />
