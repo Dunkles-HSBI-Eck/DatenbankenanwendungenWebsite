@@ -2,11 +2,15 @@
 	import { goto } from '$app/navigation';
 	import { House } from '@lucide/svelte';
 	import { json } from '@sveltejs/kit';
+	import { ProgressRing } from '@skeletonlabs/skeleton-svelte';
 
-	let email;
-	let password;
+	let email = $state();
+	let password = $state();
+	let wrongPasswordText = $state("");
+	let loginEnabled = $state(true);
 
 	async function login() {
+		loginEnabled = false;
 		const respond = await fetch('/api/v1/login', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -21,7 +25,9 @@
 
 		if (!respond.ok) {
 			console.log('not found');
+			wrongPasswordText="Wrong E-Mail or Password";
 		}
+		loginEnabled=true;
 	}
 </script>
 
@@ -52,14 +58,27 @@
 				class="input input-bordered input-lg text-secondary-400 bg-surface-800 border-surface-700 focus:ring-primary-400 w-full rounded-lg border focus:outline-none"
 				required
 			/>
+			<p class = "text-primary-500">{wrongPasswordText}</p>
 		</label>
-		<button
+		{#if loginEnabled}
+			<button
 			type="submit"
 			onclick={login}
 			class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 rounded-xl shadow-md focus:ring-2"
 		>
 			Login
 		</button>
+		{:else}
+			<button
+			type="submit"
+			class="btn btn-lg btn-block text-secondary-400 bg-primary-900 opacity-50 rounded-xl shadow-md "
+		>
+			Login <br>
+			<ProgressRing value={null} size="size-5" meterStroke="stroke-secondary-600-400" trackStroke="stroke-primary-50-950" />
+		</button>
+		{/if}
+		
+
 		<div class="text-primary-400 mt-2 text-center">
 			<a
 				href="/register"
