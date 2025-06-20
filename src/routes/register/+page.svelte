@@ -44,7 +44,7 @@
 	</a>
 	<form
 		class="bg-surface-900 border-surface-800 flex w-full max-w-md flex-col gap-6 rounded-2xl border p-10 shadow-2xl backdrop-blur-md"
-		on:submit|preventDefault={register}
+		onsubmit={(event)=> {event.preventDefault; register()}}
 	>
 		<h2 class="text-secondary-400 mb-4 text-center text-3xl font-extrabold drop-shadow">
 			Register
