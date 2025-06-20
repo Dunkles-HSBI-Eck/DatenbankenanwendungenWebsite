@@ -48,10 +48,11 @@
 		
 		// Example: combine cast categories
 		cast = [
-			{ task: "Directors", name: movie.directors },
-			{ task: "Writers", name: movie.writers },
-			{ task: "Actors", name: movie.actors }
+			{ task: "Directors", names: (movie.directors || []).map(d => d.name) },
+			{ task: "Writers", names: (movie.writers || []).map(w => w.name) },
+			{ task: "Actors", names: (movie.actors || []).map(a => a.name) }
 		];
+		console.log(cast);
 	}
 
 
@@ -59,7 +60,6 @@
 		fetchMovieInfos();
 		focusOnLoad.scrollIntoView();
 		console.log(data);
-		console.log(movieId);
 	});
 
 	
@@ -79,7 +79,7 @@
 			<p class="font-medium text-2xl bottom-1 text-secondary-500">{description}</p>
 			<div class="w-full flex">
 				{#each tags as tag}
-					<TagCard name={tag} class="flex"/>
+					<TagCard name={tag.name} class="flex"/>
 				{/each}
 				
 			</div>
@@ -93,10 +93,12 @@
 			<br>
 			{#each cast as category}
 				<p> <strong>{category.task}</strong>:
-					{#each category.name as castmember}
+					<br>
+					{#each category.names as castmember}
 						{castmember} <br>
 						
 					{/each}
+					<br>
 				</p>
 				
 			{/each}
