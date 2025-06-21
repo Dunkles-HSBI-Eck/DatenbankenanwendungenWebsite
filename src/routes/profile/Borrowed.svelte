@@ -17,7 +17,7 @@
         <div class="font-bold text-lg text-secondary-400 mb-2">{row.titel}</div>
         <div class="flex flex-row gap-4 items-center justify-between">
           <div class="text-secondary-400"><strong>Ausgeliehen am:</strong> {row.startDate}</div>
-          <div class="text-secondary-400"><strong>Ausgeliehen bis:</strong> {row.endDate}</div>
+          <div class="text-secondary-400"><strong>Noch Verügbar für:</strong> {row.timeLeft} <strong> Tage</strong></div>
           <div class="text-secondary-400">
             <button class="btn bg-primary-500" type="button">
               zurück geben

@@ -6,11 +6,7 @@
 	import TopBar from './TopBar.svelte';
 
 	let { profilePic, data } = $props();
-	let BorrowedTableData = [
-		{ titel: 'Test', startDate: '10.05.2025', endDate: '10.06.2025' },
-		{ titel: 'Film', startDate: '10.05.2025', endDate: '10.06.2025' },
-		{ titel: 'Grrr', startDate: '10.05.2025', endDate: '10.06.2025' }
-	];
+	let BorrowedTableData = $state([]);
 
 	let ReservedTableData = [
 		{ titel: 'bdfbd', availible: true },
@@ -22,6 +18,19 @@
 	let subscriptionPlanName = 'free';
 	let plans = ['free', 'pro', 'ultra'];
 	let planIndex = plans.indexOf(subscriptionPlanName);
+
+	onMount(async () => {
+		const response = await fetch('/api/v1/borrowedMovies');
+		const data = await response.json();
+		// Map API data to table format
+		BorrowedTableData = data.movies.map(movie => ({
+			id: movie.id,
+			titel: movie.name,
+			startDate: movie.rentalDate,
+			timeLeft: movie.timeLeft
+		}));
+		console.log(BorrowedTableData);
+	});
 </script>
 
 <TopBar profilePic="Logo.png" {data} />
