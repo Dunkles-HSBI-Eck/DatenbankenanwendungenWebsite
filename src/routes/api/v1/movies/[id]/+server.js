@@ -1,9 +1,17 @@
 import { getMovieById } from '$lib/server/database.js';
+import { getMoviePriceForUser } from '$lib/server/database.js';
 import { json } from '@sveltejs/kit';
 
-export async function GET({ params }) {
+export async function GET({ params, locals }) {
     const movieId = params.id;
 
+    let price = [];
+    if (!locals.userId) {
+        price = await getMoviePriceForUser(null, movieId);
+    }
+    else{
+        price = await getMoviePriceForUser(locals.userId, movieId);
+    }
     const result = await getMovieById(movieId);
 
     if (!result) {
@@ -21,6 +29,7 @@ export async function GET({ params }) {
         fsk_id: result.fsk_id,
         fsk: result.fsk_name,
         price: result.price,
+        final_price: price[0]?.final_price,
         video: result.video,
         length: result.length,
         imdb_id: result.imdb_id,
