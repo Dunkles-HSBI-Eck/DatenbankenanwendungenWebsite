@@ -13,7 +13,6 @@ export async function load({ locals, fetch }) {
 
 	let subscriptions = [];
 
-	console.log(data2)
 	let currentPlanID = data2.id ?? null;
 
 	subscriptions = data.tiers.map((tier) => ({
