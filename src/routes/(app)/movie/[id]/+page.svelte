@@ -107,12 +107,12 @@
 				<p class="flex">return movie</p>
 				<ReturnIcon class="flex" />
 			</button>
-		{:else if (movie.available_licenses > 0)}
+		{:else if movie.available_licenses > 0}
 			<button
 				onclick={openBorrowWindow}
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
 			>
-				<p>rent movie for {amountDays} days</p>
+				<p>rent movie for 14 days</p>
 				<p>for {movie.price}</p>
 		</button>
 		{:else}
