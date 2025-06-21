@@ -4,7 +4,6 @@
 	import { Undo2 as ReturnIcon } from '@lucide/svelte';
 	import { onMount } from 'svelte';
     import { lastMovie } from '$lib/store.js';
-	import TopBar from './TopBar.svelte';
 
 	let { data } = $props();
 	let { movieId, movie } = data;
@@ -34,19 +33,17 @@
 	}
 
 	onMount(() => {
-        movie.video = "0"
         lastMovie.set(movie);
 		focusOnLoad.scrollIntoView();
 	});
 </script>
 
-<TopBar profilePic="/Logo.png" {data} />
 <div>
-	<div>
-		<img src="/api/v1/images/banners/{movie.banner}" alt="thumbnail" class="fixed -z-30 w-full" />
+	<div class="fixed top-0 left-0 -z-30 w-full h-full">
+		<img src="/api/v1/images/banners/{movie.banner}" alt="thumbnail" class="h-full object-cover" />
 	</div>
 
-	<div class=" z-40 flex w-250 pt-200 pl-10">
+	<div class="z-40 flex w-250 pt-200 pl-10">
 		<div
 			class="bg-surface-900 border-surface-800 shadow-surface-950 w-full items-baseline rounded border p-10 shadow-2xl"
 		>
