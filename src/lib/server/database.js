@@ -153,7 +153,7 @@ export async function getEmail(user_id) {
 		if (result.rows.length === 0) {
 			return null;
 		}
-		return result.rows[0].tier;
+		return result.rows[0].email;
 	} catch (error) {
 		console.error('Error fetching email:', error);
 		throw new GenricDatabaseError('Database error while fetching email');
