@@ -4,11 +4,13 @@ import { getSaltByEmail, verifyUser } from '$lib/server/database.js';
 import { NoUserFound } from '$lib/server/error.js';
 
 export async function POST({ request }) {
-	const { email, password } = await request.json();
-	const emailLowercase = email.toLowerCase();
+	let { email, password } = await request.json();
+
+    email = email?.trim().toLowerCase();
+
 	let salt;
 	try {
-		salt = await getSaltByEmail(emailLowercase);
+		salt = await getSaltByEmail(email);
 	} catch (e) {
 		if (e instanceof NoUserFound) {
 			error(e.status, 'Credentials are incorrect');
@@ -20,7 +22,7 @@ export async function POST({ request }) {
 
 	let user_id;
 	try {
-		user_id = await verifyUser(emailLowercase, hash);
+		user_id = await verifyUser(email, hash);
 	} catch (e) {
 		if (e instanceof NoUserFound) {
 			error(e.status, 'Credentials are incorrect');

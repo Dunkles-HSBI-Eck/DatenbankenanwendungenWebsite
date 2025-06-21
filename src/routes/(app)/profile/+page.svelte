@@ -6,6 +6,7 @@
 	import { userId } from '$lib/store.js';
 	import { goto } from '$app/navigation';
 
+
 	let { profilePic, data } = $props();
 	let BorrowedTableData = $state([]);
 
@@ -15,10 +16,8 @@
 	];
 
 	let maxLeihverträge = 5;
-	let userEmail = 'user@email.com';
-	let subscriptionPlanName = 'free';
-	let plans = ['free', 'pro', 'ultra'];
-	let planIndex = plans.indexOf(subscriptionPlanName);
+	let userEmail = $derived(data.userMail);
+	let userTier = $derived(data.userTier);
 
 	onMount(async () => {
 		const response = await fetch('/api/v1/borrowedMovies');
@@ -51,7 +50,7 @@
 				{userEmail}
 			</div>
 			<span class="text-secondary-400 font-semibold">Current Plan:</span>
-			<span class="text-tertiary-500">{subscriptionPlanName}</span>
+			<span class="text-tertiary-500">{userTier}</span>
 			<div class="mt-4 flex flex-col gap-2">
 				<a class="btn bg-primary-500 text-secondary-400 self-start" href="/payment">
 					Add Payment Option
