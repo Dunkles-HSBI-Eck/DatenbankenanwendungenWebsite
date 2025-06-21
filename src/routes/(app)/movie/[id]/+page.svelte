@@ -4,6 +4,7 @@
 	import { Undo2 as ReturnIcon } from '@lucide/svelte';
 	import { onMount } from 'svelte';
     import { lastMovie } from '$lib/store.js';
+	import BorrowWindow from '$lib/BorrowWindow.svelte';
 
 	let { data } = $props();
 	let { movieId, movie, ownsMovie} = data;
@@ -11,6 +12,7 @@
 	let userOwnsMovie = $state(ownsMovie);
 	let cast = $state();
 
+	let showBorrowWindow = $state(false);
 	cast = [
 		{ task: 'Director', people: movie.directors },
 		{ task: 'Actors', people: movie.actors },
@@ -36,7 +38,22 @@
         lastMovie.set(movie);
 		focusOnLoad.scrollIntoView();
 	});
+
+	function cancelBorrowing()
+	{
+		showBorrowWindow = false;
+	}
+
+	function openBorrowWindow()
+	{
+		showBorrowWindow = true;
+	}
 </script>
+
+{#if showBorrowWindow}
+	<BorrowWindow movieTitle = {movie.title} cancelFunction={cancelBorrowing}/>
+{/if}
+
 
 <div>
 	<div class="fixed top-0 left-0 -z-30 w-full h-full">
@@ -90,9 +107,9 @@
 				<p class="flex">return movie</p>
 				<ReturnIcon class="flex" />
 			</button>
-		{:else if movie.available_licenses > 0}
+		{:else if (movie.available_licenses > 0)}
 			<button
-				
+				onclick={openBorrowWindow}
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
 			>
 				<p>rent movie for {amountDays} days</p>
