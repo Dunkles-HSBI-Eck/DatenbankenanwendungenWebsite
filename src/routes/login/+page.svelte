@@ -6,7 +6,7 @@
 
 	let email = $state();
 	let password = $state();
-	let wrongPasswordText = $state("");
+	let wrongPasswordText = $state('');
 	let loginEnabled = $state(true);
 
 	async function login() {
@@ -25,9 +25,9 @@
 
 		if (!respond.ok) {
 			console.log('not found');
-			wrongPasswordText="Wrong E-Mail or Password";
+			wrongPasswordText = 'Wrong E-Mail or Password';
 		}
-		loginEnabled=true;
+		loginEnabled = true;
 	}
 </script>
 
@@ -58,26 +58,30 @@
 				class="input input-bordered input-lg text-secondary-400 bg-surface-800 border-surface-700 focus:ring-primary-400 w-full rounded-lg border focus:outline-none"
 				required
 			/>
-			<p class = "text-primary-500">{wrongPasswordText}</p>
+			<p class="text-primary-500">{wrongPasswordText}</p>
 		</label>
 		{#if loginEnabled}
 			<button
-			type="submit"
-			onclick={login}
-			class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 rounded-xl shadow-md focus:ring-2"
-		>
-			Login
-		</button>
+				type="submit"
+				onclick={login}
+				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 rounded-xl shadow-md focus:ring-2"
+			>
+				Login
+			</button>
 		{:else}
 			<button
-			type="submit"
-			class="btn btn-lg btn-block text-secondary-400 bg-primary-900 opacity-50 rounded-xl shadow-md "
-		>
-			Login <br>
-			<ProgressRing value={null} size="size-5" meterStroke="stroke-secondary-600-400" trackStroke="stroke-primary-50-950" />
-		</button>
+				type="submit"
+				class="btn btn-lg btn-block text-secondary-400 bg-primary-900 rounded-xl opacity-50 shadow-md"
+			>
+				Login <br />
+				<ProgressRing
+					value={null}
+					size="size-5"
+					meterStroke="stroke-secondary-600-400"
+					trackStroke="stroke-primary-50-950"
+				/>
+			</button>
 		{/if}
-		
 
 		<div class="text-primary-400 mt-2 text-center">
 			<a

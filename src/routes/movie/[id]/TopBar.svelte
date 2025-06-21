@@ -1,18 +1,26 @@
 <script>
-	import LogoBtn from "../../LogoBtn.svelte";
-    import {goto} from "$app/navigation"
-    let { profilePic, data } = $props();
+	import LogoBtn from '../../LogoBtn.svelte';
+	import { goto } from '$app/navigation';
+	let { profilePic, data } = $props();
 </script>
 
-<div class = " fixed z-40 top-0 justify-between bg-surface-900 h-20 w-full border border-surface-800 rounded shadow flex items-center">
-    <LogoBtn href="/"/>
-    <div class=" items-center">
-
-    
-    <div class="flex items-center h-20">
-        <a href="/profile" class="mr-6 rounded-full focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Go to profile">
-            <img src={profilePic} alt="Profile" class="w-14 h-14 rounded-full border-2 border-secondary-400 object-cover shadow-md hover:scale-105 transition-transform duration-200 bg-surface/80 backdrop-blur-md" />
-        </a>
-    </div>
-    </div>
+<div
+	class=" bg-surface-900 border-surface-800 fixed top-0 z-40 flex h-20 w-full items-center justify-between rounded border shadow"
+>
+	<LogoBtn href="/" />
+	<div class=" items-center">
+		<div class="flex h-20 items-center">
+			<a
+				href="/profile"
+				class="focus:ring-primary mr-6 rounded-full focus:ring-2 focus:outline-none"
+				aria-label="Go to profile"
+			>
+				<img
+					src={profilePic}
+					alt="Profile"
+					class="border-secondary-400 bg-surface/80 h-14 w-14 rounded-full border-2 object-cover shadow-md backdrop-blur-md transition-transform duration-200 hover:scale-105"
+				/>
+			</a>
+		</div>
+	</div>
 </div>

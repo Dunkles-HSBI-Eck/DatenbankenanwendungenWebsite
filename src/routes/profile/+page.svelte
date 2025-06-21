@@ -48,7 +48,7 @@
 				<div class="mt-4 flex flex-col gap-2">
 					<a class="btn bg-primary-500 text-secondary-400 self-start" href="/payment">
 						Add Payment Option
-                    </a>
+					</a>
 					<a class="btn bg-primary-500 text-secondary-400 self-start" href="/subscriptions">
 						Change plan
 					</a>

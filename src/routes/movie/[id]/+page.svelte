@@ -85,11 +85,15 @@
 			>
 				<p class="flex">Watch now</p>
 				<TvMinimalPlay class="flex" />
+				<p class="flex">Watch now</p>
+				<TvMinimalPlay class="flex" />
 			</button>
 			<button
 				bind:this={focusOnLoad}
 				class="btn btn-lg btn-block text-secondary-400 bg-surface-900 focus:ring-secondary-300 ml-10 h-27 rounded-xl shadow-md transition-colors duration-150 hover:underline focus:ring-2"
 			>
+				<p class="flex">return movie</p>
+				<ReturnIcon class="flex" />
 				<p class="flex">return movie</p>
 				<ReturnIcon class="flex" />
 			</button>

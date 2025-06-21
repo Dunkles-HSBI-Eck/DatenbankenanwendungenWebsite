@@ -14,9 +14,9 @@ export async function GET({ params, locals }) {
     }
     const result = await getMovieById(movieId);
 
-    if (!result) {
-        return new Response('Movie not found', { status: 404 });
-    }
+	if (!result) {
+		return new Response('Movie not found', { status: 404 });
+	}
 
     return json({
         id: result.movie_id,

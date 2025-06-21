@@ -10,7 +10,7 @@ const REGEX_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/; // At least 8 ch
 export async function POST({ request }) {
 	let { email, password } = await request.json();
 
-    email = email?.trim().toLowerCase(); // Normalize email to lowercase and trim whitespace
+	email = email?.trim().toLowerCase(); // Normalize email to lowercase and trim whitespace
 
 	// Check if email and password are provided
 	if (!email || !password) {

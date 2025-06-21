@@ -1,7 +1,6 @@
 <script>
-  export let tableData = [];
-  export let maxLeihverträge;
-
+	export let tableData = [];
+	export let maxLeihverträge;
 </script>
 
 <div class="card rounded-2xl w-full">

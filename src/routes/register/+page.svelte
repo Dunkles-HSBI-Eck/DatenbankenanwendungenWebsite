@@ -7,14 +7,14 @@
 	let email = $state();
 	let password = $state();
 	let confirmPassword = $state();
-	let registerFaliureMessage = $state("");
+	let registerFaliureMessage = $state('');
 	let buttonEnabled = $state(true);
 
 	async function register() {
 		buttonEnabled = false;
 		if (password !== confirmPassword) {
-			registerFaliureMessage = "Passwords do not match!";
-			buttonEnabled=true;
+			registerFaliureMessage = 'Passwords do not match!';
+			buttonEnabled = true;
 			return;
 		}
 		const respond = await fetch('/api/v1/register', {
@@ -32,7 +32,7 @@
 		if (!respond.ok) {
 			console.log('registration failed');
 
-			registerFaliureMessage = "registration failed."
+			registerFaliureMessage = 'registration failed.';
 		}
 		buttonEnabled = true;
 	}
@@ -44,7 +44,10 @@
 	</a>
 	<form
 		class="bg-surface-900 border-surface-800 flex w-full max-w-md flex-col gap-6 rounded-2xl border p-10 shadow-2xl backdrop-blur-md"
-		onsubmit={(event)=> {event.preventDefault; register()}}
+		onsubmit={(event) => {
+			event.preventDefault;
+			register();
+		}}
 	>
 		<h2 class="text-secondary-400 mb-4 text-center text-3xl font-extrabold drop-shadow">
 			Register
@@ -83,20 +86,21 @@
 		<p class="text-primary-500">{registerFaliureMessage}</p>
 		{#if buttonEnabled}
 			<button
-			type="submit"
-			class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 rounded-xl shadow-md focus:ring-2"
-		>
-			Register
-		</button>
+				type="submit"
+				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 rounded-xl shadow-md focus:ring-2"
+			>
+				Register
+			</button>
 		{:else}
-			<button
-			class="btn btn-lg btn-block text-secondary-400 bg-primary-900 rounded-xl shadow-md "
-		>
-			Register <ProgressRing value={null} size="size-5" meterStroke="stroke-secondary-600-400" trackStroke="stroke-primary-50-950" />
-		</button>
+			<button class="btn btn-lg btn-block text-secondary-400 bg-primary-900 rounded-xl shadow-md">
+				Register <ProgressRing
+					value={null}
+					size="size-5"
+					meterStroke="stroke-secondary-600-400"
+					trackStroke="stroke-primary-50-950"
+				/>
+			</button>
 		{/if}
-		
-
 
 		<div class="text-primary-400 mt-2 text-center">
 			<a href="/login" class="hover:text-primary-200 transition-colors duration-150 hover:underline"

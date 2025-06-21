@@ -226,7 +226,7 @@
 							<div
 								transition:blur={{ duration: 200 }}
 								style="height: {settingContainerHeight + 32}px"
-								class="absolute bottom-16 -right-10 bg-surface-950/90 p-4 rounded shadow-lg z-50 transition-all w-80 duration-400 overflow-hidden"
+								class="bg-surface-950/90 absolute -right-10 bottom-16 z-50 w-80 overflow-hidden rounded p-4 shadow-lg transition-all duration-400"
 							>
 								{#if currentSettingPage === 'quality'}
 									<div
@@ -236,7 +236,7 @@
 									>
 										<button
 											onclick={() => (currentSettingPage = 'menu')}
-											class="flex items-center space-x-2 w-full border-b-[1px] pb-2"
+											class="flex w-full items-center space-x-2 border-b-[1px] pb-2"
 										>
 											<ChevronLeft class="h-4 w-4" />
 											<p>Qualität</p>
@@ -249,7 +249,7 @@
 														hls.loadLevel = quality.level;
 														currentLevel = quality.level;
 													}}
-													class="flex items-center space-x-2 w-full h-8 first:pt-2"
+													class="flex h-8 w-full items-center space-x-2 first:pt-2"
 												>
 													{#if currentLevel === quality.level}
 														<Check class="h-4 w-4" />
@@ -268,7 +268,7 @@
 									>
 										<button
 											onclick={() => (currentSettingPage = 'quality')}
-											class="flex items-center w-full justify-between"
+											class="flex w-full items-center justify-between"
 										>
 											<div class="flex items-center space-x-2">
 												<SlidersHorizontal class="h-6 w-6" />

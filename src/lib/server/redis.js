@@ -2,16 +2,16 @@ import { createClient } from '@redis/client';
 import { env } from '$env/dynamic/private';
 
 const redisClient = createClient({
-    username: env.REDIS_USERNAME,
-    password: env.REDIS_PASSWORD,
-    socket: {
-        host: env.REDIS_IP,
-        port: env.REDIS_PORT
-    }
+	username: env.REDIS_USERNAME,
+	password: env.REDIS_PASSWORD,
+	socket: {
+		host: env.REDIS_IP,
+		port: env.REDIS_PORT
+	}
 });
 
 redisClient.on('error', (error) => {
-    console.error(`Redis client error:`, error);
+	console.error(`Redis client error:`, error);
 });
 
 await redisClient.connect();
@@ -25,12 +25,12 @@ await redisClient.connect();
  * @returns {Promise<Boolean>} true if rate limit is exceeded, false otherwise
  */
 export async function rateLimit(user, endpoint, timeLimit = 500) {
-    const response = await redisClient.set(`rate_limit:${user}:${endpoint}`, '', {
-        PX: timeLimit,
-        NX: true
-    });
+	const response = await redisClient.set(`rate_limit:${user}:${endpoint}`, '', {
+		PX: timeLimit,
+		NX: true
+	});
 
-    return !response;
+	return !response;
 }
 
 /**
@@ -42,29 +42,29 @@ export async function rateLimit(user, endpoint, timeLimit = 500) {
  * @returns {Promise<Boolean>} true if rate limit is exceeded, false otherwise
  */
 export async function leakyRateLimit(user, maxRequests, timeWindow) {
-    const key = `leaky_rate_limit:${user}`;
-    const now = Date.now();
+	const key = `leaky_rate_limit:${user}`;
+	const now = Date.now();
 
-    // Get current state from Redis
-    const data = await redisClient.hGetAll(key);
-    const lastLeak = data.last_leak_time ? parseInt(data.last_leak_time) : now;
-    const tokens = data.tokens ? parseFloat(data.tokens) : 0;
+	// Get current state from Redis
+	const data = await redisClient.hGetAll(key);
+	const lastLeak = data.last_leak_time ? parseInt(data.last_leak_time) : now;
+	const tokens = data.tokens ? parseFloat(data.tokens) : 0;
 
-    // Calculate how many tokens have leaked out
-    const elapsed = (now - lastLeak) / 1000;
-    const leakRate = maxRequests / timeWindow;
-    const updatedTokens = Math.max(0, tokens - elapsed * leakRate);
+	// Calculate how many tokens have leaked out
+	const elapsed = (now - lastLeak) / 1000;
+	const leakRate = maxRequests / timeWindow;
+	const updatedTokens = Math.max(0, tokens - elapsed * leakRate);
 
-    if (updatedTokens >= maxRequests) return true;
+	if (updatedTokens >= maxRequests) return true;
 
-    // Save updated state
-    await redisClient.hSet(key, {
-        tokens: updatedTokens + 1,
-        last_leak_time: now
-    });
+	// Save updated state
+	await redisClient.hSet(key, {
+		tokens: updatedTokens + 1,
+		last_leak_time: now
+	});
 
-    // Set expiry to auto-cleanup
-    await redisClient.expire(key, Math.ceil(timeWindow * 2));
+	// Set expiry to auto-cleanup
+	await redisClient.expire(key, Math.ceil(timeWindow * 2));
 
-    return false;
+	return false;
 }
