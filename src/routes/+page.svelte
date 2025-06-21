@@ -1,10 +1,14 @@
 <script>
 	import LogoBtn from './LogoBtn.svelte';
 	import { onDestroy, onMount } from 'svelte';
+    import FeaturedBackgroundSlides from '$lib/FeaturedBackgroundSlides.svelte';
+
+    let { data } = $props();
 
 	let bottomText = $state("");
 	let avalableTexts = ["Stream Tousands of Vintage Movies Today.", "Relive the Golden Age — One Film at a Time.", "Stream Timeless Classics, Anytime.", "Where Vintage Cinema Comes Back to Life.", "Feel the Magic of a Bygone Era.", "Rediscover the Movies That Made History.", "The Past, Perfectly Preserved.", "Old Hollywood, New Convenience.", "Where Every Film Is a Classic.","Stream the Stories That Shaped Cinema.", "Elegance. Drama. History. All in One Place.", "Timeless Tales, Ready to Stream.", "Old Films, New Life.", "Becking, bitte gib 1"];
 	let currentWord = 0;
+    let lastWord = 0;
 	let timeoutId;
 
 	function typeNewWord()
@@ -16,8 +20,11 @@
 			timeToRemove += 50;
 		}
 
-		currentWord = Math.floor(Math.random() * avalableTexts.length);
-		console.log(avalableTexts[currentWord]);
+        lastWord = currentWord;
+        while(currentWord === lastWord) {
+		    currentWord = Math.floor(Math.random() * avalableTexts.length);
+        }
+
 		for(let i  = 0; i < avalableTexts[currentWord].length; i++)
 		{
 			setTimeout(typeLetter, 100 * i +timeToRemove + 1000);
@@ -36,7 +43,6 @@
 	}
 
 	onMount(() => {
-
 		typeNewWord();
 	});
 	
@@ -47,7 +53,7 @@
 
 </script>
 
-<nav class="sticky top-0 z-10 flex items-center justify-between mb-8 px-2 w-full bg-surface/80 backdrop-blur-md border-b border-surface-800 bg-surface-900 rounded">
+<nav class="sticky top-0 z-10 flex items-center justify-between px-2 h-20 w-full bg-surface/80 backdrop-blur-md border-b border-surface-800 bg-surface-900 rounded">
 	<!-- Left -->
 	<div class="justify-start">
 		<LogoBtn href="/"/>
@@ -66,26 +72,14 @@
 		</div>
 	</div>
 </nav>
-<div class="justify-center flex pt-10">
-
-
-	<div class = "bg-secondary-500  flex border-surface-900 border-2 w-fit h-fit rounded-full justify-center " >
-		<img src="Logo.png" alt="Logo" class="flex w-3/5 ">
-	</div>
-</div>
-<div class="justify-center flex">
-
-
-	<div class = " flex pt-10 w-fit gap-4 h-30">
-		<a href="/login" class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 focus:ring-2 rounded-xl shadow-md hover:scale-105 text-3xl">Login</a>
-		<a href="/register" class="btn btn-lg btn-block text-secondary-400 focus:bg-primary-500 hover:ring-secondary-300 hover:ring-2 hover:scale-105 rounded-xl shadow-md bg-surface-900 text-3xl">Register</a>
-	</div>
-</div>
-
-<div class = "flex justify-center pt-30 text-secondary-500">
-	<div class = "flex  text-wrap">	
-
-		<span class="text-6xl ">{bottomText}</span><span class="text-6xl animate-pulse">|</span>
-	</div>
+<FeaturedBackgroundSlides movies={data.movies.movies}/>
+<div class="grid w-full h-screen -mt-20 place-items-center px-20">
+    <div class="flex flex-col items-center">
+        <img src="/wordmark_secondary.png" alt="Vintagflix Logo" class="w-2/3">
+        <div class="text-secondary-500 h-32 text-center mt-10">
+            <span class="text-4xl">{bottomText}</span>
+            <span class="text-4xl animate-pulse">|</span>
+        </div>
+    </div>
 </div>
 
