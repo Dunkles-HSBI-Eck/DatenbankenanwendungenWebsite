@@ -6,9 +6,9 @@
     import { lastMovie } from '$lib/store.js';
 
 	let { data } = $props();
-	let { movieId, movie } = data;
+	let { movieId, movie, ownsMovie} = data;
 
-	let userOwnsMovie = $state();
+	let userOwnsMovie = $state(ownsMovie);
 	let cast = $state();
 
 	cast = [
@@ -43,11 +43,11 @@
 		<img src="/api/v1/images/banners/{movie.banner}" alt="thumbnail" class="h-full object-cover" />
 	</div>
 
-	<div class="z-40 flex w-250 pt-200 pl-10">
-		<div
+	<div class=" z-40 flex w-250 pt-200 pl-10">
+		<div bind:this={focusOnLoad}
 			class="bg-surface-900 border-surface-800 shadow-surface-950 w-full items-baseline rounded border p-10 shadow-2xl"
 		>
-			<h1 class="text-secondary-500 m-1 text-8xl font-medium">{movie.title}</h1>
+			<h1  class="text-secondary-500 m-1 text-8xl font-medium">{movie.title}</h1>
 			<br />
 			<p class="text-secondary-500 text-2xl font-medium">{movie.release}</p>
 			<br />
@@ -76,35 +76,31 @@
 			{/each}
 		</div>
 		{#if userOwnsMovie}
-			<button
-				bind:this={focusOnLoad}
+			<a href="/watch"><div
+				
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
 			>
 				<p class="flex">Watch now</p>
 				<TvMinimalPlay class="flex" />
-				<p class="flex">Watch now</p>
-				<TvMinimalPlay class="flex" />
-			</button>
+		</div></a>
 			<button
-				bind:this={focusOnLoad}
+				
 				class="btn btn-lg btn-block text-secondary-400 bg-surface-900 focus:ring-secondary-300 ml-10 h-27 rounded-xl shadow-md transition-colors duration-150 hover:underline focus:ring-2"
 			>
-				<p class="flex">return movie</p>
-				<ReturnIcon class="flex" />
 				<p class="flex">return movie</p>
 				<ReturnIcon class="flex" />
 			</button>
 		{:else if movie.available_licenses > 0}
 			<button
-				bind:this={focusOnLoad}
+				
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
 			>
 				<p>rent movie for {amountDays} days</p>
 				<p>for {movie.price}</p>
-			</button>
+		</button>
 		{:else}
 			<button
-				bind:this={focusOnLoad}
+				
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
 			>
 				<p>make a reservation</p>
