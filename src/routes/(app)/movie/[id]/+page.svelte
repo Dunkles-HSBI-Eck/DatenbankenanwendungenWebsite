@@ -49,7 +49,7 @@
 </script>
 
 {#if showBorrowWindow}
-	<BorrowWindow movieTitle={movie.title} cancelFunction={cancelBorrowing} />
+	<BorrowWindow movieTitle={movie.title} cancelFunction={cancelBorrowing} price = {movie.price}/>
 {/if}
 
 <div>
@@ -112,7 +112,7 @@
 					class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
 				>
 					<p>rent movie for 14 days</p>
-					<p>for {movie.price}</p>
+					<p>for {movie.price}€</p>
 				</button>
 			{:else}
 				<button
