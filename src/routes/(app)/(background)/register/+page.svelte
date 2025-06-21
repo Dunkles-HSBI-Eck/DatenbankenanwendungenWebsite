@@ -3,7 +3,7 @@
 	import { House } from '@lucide/svelte';
 	import { json } from '@sveltejs/kit';
 	import { ProgressRing } from '@skeletonlabs/skeleton-svelte';
-    import { userId } from '$lib/store.js';
+	import { userId } from '$lib/store.js';
 
 	let email = $state();
 	let password = $state();
@@ -27,8 +27,8 @@
 		});
 
 		if (respond.ok) {
-            const data = await respond.json();
-            userId.set(data.user_id);
+			const data = await respond.json();
+			userId.set(data.user_id);
 			goto('/');
 		}
 
@@ -41,7 +41,7 @@
 	}
 </script>
 
-<main class="relative backdrop-blur-xs -mt-24 flex min-h-screen items-center justify-center">
+<main class="relative -mt-24 flex min-h-screen items-center justify-center backdrop-blur-xs">
 	<a href="/" class="text-secondary-400 absolute top-6 left-6 flex items-center gap-2">
 		<House class="hover:bg-surface-800 h-7 w-7 rounded p-1" />
 	</a>

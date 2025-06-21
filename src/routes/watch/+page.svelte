@@ -7,14 +7,14 @@
 	import { Maximize, Minimize } from '@lucide/svelte';
 	import { ArrowLeft } from '@lucide/svelte';
 	import { Settings } from '@lucide/svelte';
-    import { lastMovie } from '$lib/store';
-    import { get } from 'svelte/store';
-    import { goto } from '$app/navigation';
+	import { lastMovie } from '$lib/store';
+	import { get } from 'svelte/store';
+	import { goto } from '$app/navigation';
 	import { fly, slide, blur } from 'svelte/transition';
 
 	import Hls from 'hls.js';
 
-    let movie = get(lastMovie)
+	let movie = get(lastMovie);
 	let stream;
 	let streamContainer;
 	let currentTime = $state([0]);
@@ -37,7 +37,7 @@
 	let settingContainerHeight = $state(0);
 
 	onMount(() => {
-		if(!movie) {
+		if (!movie) {
 			goto('/browse');
 			return;
 		}
@@ -116,8 +116,8 @@
 	onclick={(event) => {
 		if (!settingContainer?.contains(event.target) && showSettings) {
 			showSettings = false;
-            currentSettingPage = 'menu';
-            settingContainerHeight = 0;
+			currentSettingPage = 'menu';
+			settingContainerHeight = 0;
 		}
 	}}
 	role="region"

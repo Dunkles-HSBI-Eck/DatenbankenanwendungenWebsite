@@ -3,7 +3,7 @@
 	import { House } from '@lucide/svelte';
 	import { json } from '@sveltejs/kit';
 	import { ProgressRing } from '@skeletonlabs/skeleton-svelte';
-    import { userId } from '$lib/store.js';
+	import { userId } from '$lib/store.js';
 
 	let email = $state();
 	let password = $state();
@@ -21,8 +21,8 @@
 		});
 
 		if (respond.ok) {
-            const data = await respond.json();
-            userId.set(data.user_id);
+			const data = await respond.json();
+			userId.set(data.user_id);
 			goto('/browse');
 		}
 
@@ -34,7 +34,7 @@
 	}
 </script>
 
-<main class="relative backdrop-blur-xs -mt-24 flex min-h-screen items-center justify-center">
+<main class="relative -mt-24 flex min-h-screen items-center justify-center backdrop-blur-xs">
 	<form
 		class="bg-surface-900 border-surface-800 flex w-full max-w-md flex-col gap-6 rounded-2xl border p-10 shadow-2xl backdrop-blur-md"
 	>

@@ -65,36 +65,38 @@
 		}
 	});
 
-    $effect(() => {
-        if(Math.ceil(featuredContainerHeight / 200) > movieArrays.length) {
-            movieArrays.push(
-                Array.from({ length: Math.ceil(featuredContainerWidth / 100) }, () => {
-                    const movie = movies[Math.floor(Math.random() * movies.length)];
-                    return { ...movie, elementId: id++ };
-                })
-            );
-            for(let i = 0; i < movieArrays.length - speeds.length; i++) {
-                speeds.push({
-                    speed: Math.random() < 0.5 ? -1 : 1,
-                    duration: Math.random() * (30000 - 25000) + 25000
-                });
-                tweens.push(new Tween(0, {
-                    duration: speeds[speeds.length - 1].duration,
-                }))
-                tweens[tweens.length - 1].set(speeds[speeds.length - 1].speed * 1000);
-            }
-        }
-        for(const row of movieArrays) {
-            if(Math.ceil(featuredContainerWidth / 100) > row.length) {
-                row.push(
-                    ...Array.from({ length: Math.ceil(featuredContainerWidth / 100) - row.length }, () => {
-                        const movie = movies[Math.floor(Math.random() * movies.length)];
-                        return { ...movie, elementId: id++ };
-                    })
-                );
-            }
-        }
-    })
+	$effect(() => {
+		if (Math.ceil(featuredContainerHeight / 200) > movieArrays.length) {
+			movieArrays.push(
+				Array.from({ length: Math.ceil(featuredContainerWidth / 100) }, () => {
+					const movie = movies[Math.floor(Math.random() * movies.length)];
+					return { ...movie, elementId: id++ };
+				})
+			);
+			for (let i = 0; i < movieArrays.length - speeds.length; i++) {
+				speeds.push({
+					speed: Math.random() < 0.5 ? -1 : 1,
+					duration: Math.random() * (30000 - 25000) + 25000
+				});
+				tweens.push(
+					new Tween(0, {
+						duration: speeds[speeds.length - 1].duration
+					})
+				);
+				tweens[tweens.length - 1].set(speeds[speeds.length - 1].speed * 1000);
+			}
+		}
+		for (const row of movieArrays) {
+			if (Math.ceil(featuredContainerWidth / 100) > row.length) {
+				row.push(
+					...Array.from({ length: Math.ceil(featuredContainerWidth / 100) - row.length }, () => {
+						const movie = movies[Math.floor(Math.random() * movies.length)];
+						return { ...movie, elementId: id++ };
+					})
+				);
+			}
+		}
+	});
 
 	function cubic(t, i) {
 		const rise = Math.abs((speeds[i].direction * 1000) / speeds[i].duration);

@@ -5,7 +5,6 @@
 </script>
 
 <div class="relative mt-8 flex w-full flex-col items-center gap-6">
-
 	<div
 		class="bg-surface-900 border-surface-800 hover:shadow-primary-500/30 hover:border-primary flex h-[80vh] w-full max-w-md cursor-pointer flex-col rounded-2xl border p-10 shadow-2xl backdrop-blur-md transition-all duration-200 hover:scale-103"
 	>
