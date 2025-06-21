@@ -1,5 +1,5 @@
 <script>
-    import FeaturedBackgroundSlides from '$lib/FeaturedBackgroundSlides.svelte';
+	import FeaturedBackgroundSlides from '$lib/FeaturedBackgroundSlides.svelte';
 
 	let { children, data } = $props();
 </script>

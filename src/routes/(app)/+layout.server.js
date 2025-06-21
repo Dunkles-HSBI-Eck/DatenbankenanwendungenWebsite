@@ -1,5 +1,5 @@
 export async function load({ locals }) {
-    return {
-        userId: locals.userId,
-    }
+	return {
+		userId: locals.userId
+	};
 }
