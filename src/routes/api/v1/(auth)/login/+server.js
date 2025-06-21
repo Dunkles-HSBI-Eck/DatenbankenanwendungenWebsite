@@ -5,10 +5,10 @@ import { NoUserFound } from '$lib/server/error.js';
 
 export async function POST({ request }) {
 	const { email, password } = await request.json();
-
+	const emailLowercase = email.toLowerCase();
 	let salt;
 	try {
-		salt = await getSaltByEmail(email);
+		salt = await getSaltByEmail(emailLowercase);
 	} catch (e) {
 		if (e instanceof NoUserFound) {
 			error(e.status, 'Credentials are incorrect');
@@ -20,7 +20,7 @@ export async function POST({ request }) {
 
 	let user_id;
 	try {
-		user_id = await verifyUser(email, hash);
+		user_id = await verifyUser(emailLowercase, hash);
 	} catch (e) {
 		if (e instanceof NoUserFound) {
 			error(e.status, 'Credentials are incorrect');
