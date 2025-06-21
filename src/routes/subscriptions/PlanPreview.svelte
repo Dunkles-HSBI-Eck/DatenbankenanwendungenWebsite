@@ -5,13 +5,7 @@
 </script>
 
 <div class="relative mt-8 flex w-full flex-col items-center gap-6">
-	<button
-		onclick={() => history.back()}
-		aria-label="Go back"
-		class="text-secondary-400 absolute top-6 left-6 flex items-center gap-2 border-none bg-transparent p-0"
-	>
-		<ArrowLeft class="hover:bg-surface-800 h-6 w-6 rounded p-1" />
-	</button>
+
 	<div
 		class="bg-surface-900 border-surface-800 hover:shadow-primary-500/30 hover:border-primary flex h-[80vh] w-full max-w-md cursor-pointer flex-col rounded-2xl border p-10 shadow-2xl backdrop-blur-md transition-all duration-200 hover:scale-103"
 	>
@@ -23,7 +17,7 @@
 				<p class="text-secondary-400 text-2xl font-semibold">
 					{plan.price === 0 ? 'Free' : plan.price + ' €'}
 				</p>
-				<p class="text-primary-400 text-center">Cost reduction: {plan.priceReduction * 100}%</p>
+				<p class="text-primary-400 text-center">Cost reduction: {plan.priceReduction}%</p>
 			</div>
 			<div class="mt-4 flex w-full flex-col items-center">
 				{#if selected}
