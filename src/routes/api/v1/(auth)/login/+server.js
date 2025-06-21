@@ -4,7 +4,9 @@ import { getSaltByEmail, verifyUser } from '$lib/server/database.js';
 import { NoUserFound } from '$lib/server/error.js';
 
 export async function POST({ request }) {
-	const { email, password } = await request.json();
+	let { email, password } = await request.json();
+
+    email = email?.trim().toLowerCase();
 
 	let salt;
 	try {
