@@ -54,7 +54,7 @@
 
 <div>
 	<div class="fixed top-0 left-0 -z-30 h-full w-full">
-		<img src="/api/v1/images/banners/{movie.banner}" alt="thumbnail" class="h-full object-cover" />
+		<img src="/api/v1/images/banners/{movie.banner}" alt="thumbnail" class="h-full object-cover brightness-75" />
 	</div>
 
 	<div class=" z-40 flex w-250 pt-200 pl-10">
