@@ -108,8 +108,6 @@
 		{:else}
 			<button
 				bind:this={focusOnLoad}
-			<button
-				bind:this={focusOnLoad}
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
 			>
 				<p>make a reservation</p>
