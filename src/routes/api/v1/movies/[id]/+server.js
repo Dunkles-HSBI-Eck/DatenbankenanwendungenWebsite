@@ -2,13 +2,13 @@ import { getMovieById } from '$lib/server/database.js';
 import { json } from '@sveltejs/kit';
 
 export async function GET({ params }) {
-    const movieId = params.id;
+	const movieId = params.id;
 
-    const result = await getMovieById(movieId);
+	const result = await getMovieById(movieId);
 
-    if (!result) {
-        return new Response('Movie not found', { status: 404 });
-    }
+	if (!result) {
+		return new Response('Movie not found', { status: 404 });
+	}
 
     return json({
         id: result.movie_id,

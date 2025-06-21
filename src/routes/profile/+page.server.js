@@ -1,11 +1,11 @@
 import { redirect } from '@sveltejs/kit';
 
 export async function load({ locals }) {
-    if (locals.userId === undefined) {
-        redirect(303,"/login")
-    }
+	if (locals.userId === undefined) {
+		redirect(303, '/login');
+	}
 
-    return {
-        userId: locals.userId
-    };
+	return {
+		userId: locals.userId
+	};
 }
