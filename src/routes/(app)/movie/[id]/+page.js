@@ -3,9 +3,18 @@ export async function load({ params, fetch }) {
     const response = await fetch(`/api/v1/movies/${params.id}`);
     const movie = await response.json();
     let ownsMovie = false;
+    let isLoggedIn;
     const response2 = await fetch('/api/v1/borrowedMovies');
 		const data = await response2.json();
-		// Map API data to table format
+        if(response2.status == 401)
+        {
+            ownsMovie = false;
+            isLoggedIn = false;
+        }
+        else
+        {
+            isLoggedIn=true;
+            // Map API data to table format
 		const BorrowedTableData = data.movies.map(m => m.id);
         for(let i = 0; i < BorrowedTableData.length; i++)
         {
@@ -15,10 +24,13 @@ export async function load({ params, fetch }) {
                 
             }
         }
+        }
+		
         
     return {
         movieId: params.id,
         movie,
-        ownsMovie
+        ownsMovie,
+        isLoggedIn
     };
 }

@@ -7,7 +7,7 @@
 	import BorrowWindow from '$lib/BorrowWindow.svelte';
 
 	let { data } = $props();
-	let { movieId, movie, ownsMovie} = data;
+	let { movieId, movie, ownsMovie, isLoggedIn} = data;
 
 	let userOwnsMovie = $state(ownsMovie);
 	let cast = $state();
@@ -92,6 +92,7 @@
 				</p>
 			{/each}
 		</div>
+		{#if isLoggedIn}
 		{#if userOwnsMovie}
 			<a href="/watch"><div
 				
@@ -122,6 +123,23 @@
 			>
 				<p>make a reservation</p>
 			</button>
+		{/if}
+		{:else}
+		<div class="p-10 text-secondary-500">
+			<p class = "text-secondary-500">To watch this movie please log in to your account or create a new one</p><br>
+			<div class="flex justify-end gap-1 w-[12.5rem]">
+			<a
+                    href="/register"
+                    class="btn btn-lg h-12 w-24 hover:ring-secondary-300 rounded-lg hover:scale-105"
+                    >Register</a
+                >
+                <a
+                    href="/login"
+                    class="btn btn-lg h-12 w-24 bg-primary-500 rounded-lg hover:scale-105"
+                    >Login</a
+                >
+				</div>
+		</div>
 		{/if}
 	</div>
 </div>
