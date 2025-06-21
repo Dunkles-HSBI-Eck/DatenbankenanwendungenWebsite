@@ -28,7 +28,9 @@ export async function POST({ request }) {
 		error(e.status, 'Internal server error');
 	}
 
-	return new Response(null, {
+	return new Response(JSON.stringify({
+        user_id: user_id
+    }), {
 		headers: {
 			'Set-Cookie': `jwt=${await createJWT(user_id)}; HttpOnly; Path=/; Max-Age=${60 * 60 * 24 * 30}; Secure;`
 		}

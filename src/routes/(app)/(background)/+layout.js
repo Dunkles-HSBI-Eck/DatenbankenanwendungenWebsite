@@ -1,10 +1,4 @@
-import { redirect } from '@sveltejs/kit';
-
-export async function load({ locals, fetch }) {
-    if (locals.userId) {
-        redirect(303,"/browse")
-    }
-
+export async function load({ fetch }) {
     const response = await fetch('/api/v1/movies');
 
     if (!response.ok) {

@@ -1,9 +1,5 @@
 <script>
-	import LogoBtn from './LogoBtn.svelte';
 	import { onDestroy, onMount } from 'svelte';
-	import FeaturedBackgroundSlides from '$lib/FeaturedBackgroundSlides.svelte';
-
-	let { data } = $props();
 
 	let bottomText = $state('');
 	let avalableTexts = [
@@ -64,35 +60,7 @@
 	});
 </script>
 
-<nav
-	class="bg-surface/80 border-surface-800 bg-surface-900 sticky top-0 z-10 flex h-20 w-full items-center justify-between rounded border-b px-2 backdrop-blur-md"
->
-	<!-- Left -->
-	<div class="justify-start">
-		<LogoBtn href="/" />
-	</div>
-
-	<!-- Mid -->
-	<div></div>
-
-	<!-- Right -->
-	<div class="justify-end">
-		<div class="flex gap-1">
-			<a
-				href="/login"
-				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 rounded-xl shadow-md hover:scale-105 focus:ring-2"
-				>Login</a
-			>
-			<a
-				href="/register"
-				class="btn btn-lg btn-block text-secondary-400 focus:bg-primary-500 hover:ring-secondary-300 rounded-xl bg-transparent shadow-md hover:scale-105 hover:ring-2"
-				>Register</a
-			>
-		</div>
-	</div>
-</nav>
-<FeaturedBackgroundSlides movies={data.movies.movies} />
-<div class="-mt-20 grid h-screen w-full place-items-center px-20">
+<div class="-mt-24 grid h-screen w-full place-items-center px-20">
 	<div class="flex flex-col items-center">
 		<img src="/wordmark_secondary.png" alt="Vintagflix Logo" class="w-2/3" />
 		<div class="text-secondary-500 mt-10 text-center">
