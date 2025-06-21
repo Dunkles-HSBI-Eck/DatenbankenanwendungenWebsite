@@ -7,19 +7,14 @@
 	import { Maximize, Minimize } from '@lucide/svelte';
 	import { ArrowLeft } from '@lucide/svelte';
 	import { Settings } from '@lucide/svelte';
+    import { lastMovie } from '$lib/store';
+    import { get } from 'svelte/store';
+    import { goto } from '$app/navigation';
 	import { fly, slide, blur } from 'svelte/transition';
 
 	import Hls from 'hls.js';
 
-	let data = {
-		video: {
-			title: 'Test Stream',
-			description: 'This is a test stream for demonstration purposes.',
-			thumbnail: 'https://via.placeholder.com/150',
-			src: '/api/v1/streams/0/master.m3u8'
-		}
-	};
-
+    let movie = get(lastMovie)
 	let stream;
 	let streamContainer;
 	let currentTime = $state([0]);
@@ -42,9 +37,13 @@
 	let settingContainerHeight = $state(0);
 
 	onMount(() => {
+		if(!movie) {
+			goto('/browse');
+			return;
+		}
 		if (Hls.isSupported()) {
 			hls = new Hls();
-			hls.loadSource(data.video.src);
+			hls.loadSource(`/api/v1/streams/${movie.video}/master.m3u8`);
 			hls.attachMedia(stream);
 			hls.on(Hls.Events.LEVEL_SWITCHED, (event, data) => {
 				if (hls.autoLevelEnabled) return;
@@ -117,6 +116,8 @@
 	onclick={(event) => {
 		if (!settingContainer?.contains(event.target) && showSettings) {
 			showSettings = false;
+            currentSettingPage = 'menu';
+            settingContainerHeight = 0;
 		}
 	}}
 	role="region"
@@ -128,10 +129,10 @@
 			transition:fly={{ y: -100, duration: 200 }}
 			class="fixed top-0 left-0 z-50 flex w-full items-center space-x-4 bg-gradient-to-b from-black to-transparent p-4"
 		>
-			<button onclick={() => history.back()} aria-label="Go back">
+			<a href="/movie/{movie.id}" aria-label="Go back">
 				<ArrowLeft class="h-6 w-6" />
-			</button>
-			<h1>{data.video.title}</h1>
+			</a>
+			<h1>{movie?.title}</h1>
 		</div>
 	{/if}
 	<video

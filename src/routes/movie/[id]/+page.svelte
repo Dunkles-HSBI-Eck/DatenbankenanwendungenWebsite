@@ -3,24 +3,22 @@
 	import { TvMinimalPlay } from '@lucide/svelte';
 	import { Undo2 as ReturnIcon } from '@lucide/svelte';
 	import { onMount } from 'svelte';
+    import { lastMovie } from '$lib/store.js';
 	import TopBar from './TopBar.svelte';
-	
-	let {data} = $props();
-	let { movieId } = data;
 
-	let title = $state();
-	let thumbnailSrc = $state();
-	let description = $state();
-	let preis = $state()
-	let licencesAvalable = $state();
-	let amountDays = $state();
-	let year = $state();
-	let tags = $state();
-	let length = $state();
+	let { data } = $props();
+	let { movieId, movie } = data;
+
 	let userOwnsMovie = $state();
 	let cast = $state();
-	 
-	let focusOnLoad;
+
+	cast = [
+		{ task: 'Director', people: movie.directors },
+		{ task: 'Actors', people: movie.actors },
+		{ task: 'Writers', people: movie.writers }
+	];
+
+	let focusOnLoad = $state();
 
 	function formatTime(seconds) {
 		seconds = Math.floor(seconds);
@@ -34,104 +32,82 @@
 
 		return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
 	}
-	async function fetchMovieInfos() {
-		const response = await fetch(`/api/v1/movies/${movieId}`);
-		let movie = await response.json();
-		console.log(movie);
-		title = movie.title;
-		thumbnailSrc = `/api/v1/images/banners/${movie.banner}`;
-		description = movie.description;
-		preis = movie.price;
-		year = movie.release;
-		tags = movie.genres;
-		licencesAvalable = movie.available_licenses;
-		
-		// Example: combine cast categories
-		cast = [
-			{ task: "Directors", names: (movie.directors || []).map(d => d.name) },
-			{ task: "Writers", names: (movie.writers || []).map(w => w.name) },
-			{ task: "Actors", names: (movie.actors || []).map(a => a.name) }
-		];
-		console.log(cast);
-	}
-
 
 	onMount(() => {
-		fetchMovieInfos();
+        movie.video = "0"
+        lastMovie.set(movie);
 		focusOnLoad.scrollIntoView();
-		console.log(data);
 	});
-
-	
 </script>
-<TopBar profilePic="/Logo.png" data={data} />
-<main>
+
+<TopBar profilePic="/Logo.png" {data} />
+<div>
 	<div>
-		<img src={thumbnailSrc} alt="thumbnail" class="w-full fixed -z-30" />
+		<img src="/api/v1/images/banners/{movie.banner}" alt="thumbnail" class="fixed -z-30 w-full" />
 	</div>
 
-	<div class = " z-40 w-250 flex pt-200 pl-10">
-		<div class = "bg-surface-900 w-full items-baseline rounded p-10 border-surface-800 border shadow-2xl shadow-surface-950">	
-			<h1 class="font-medium text-secondary-500 text-8xl m-1">{title}</h1>
-			<br>
-			<p class="font-medium text-2xl text-secondary-500">{year}</p>
-			<br>
-			<p class="font-medium text-2xl bottom-1 text-secondary-500">{description}</p>
-			<div class="w-full flex">
-				{#each tags as tag}
-					<TagCard name={tag.name} class="flex"/>
+	<div class=" z-40 flex w-250 pt-200 pl-10">
+		<div
+			class="bg-surface-900 border-surface-800 shadow-surface-950 w-full items-baseline rounded border p-10 shadow-2xl"
+		>
+			<h1 class="text-secondary-500 m-1 text-8xl font-medium">{movie.title}</h1>
+			<br />
+			<p class="text-secondary-500 text-2xl font-medium">{movie.release}</p>
+			<br />
+			<p class="text-secondary-500 bottom-1 text-2xl font-medium">{movie.description}</p>
+			<div class="flex w-full">
+				{#each movie.genres as genre}
+					<TagCard name={genre.name} class="flex" />
 				{/each}
-				
 			</div>
 		</div>
 	</div>
-	<div class = "w-full  h-100 z-50 flex bg-surface-900 mt-10 p-10 rounded border border-surface-800">
-
-		<div class = "h-full mr-10 text-secondary-500">
-			<p class = "">licences avalable: {licencesAvalable}</p>
-			<p>movie length: {formatTime(length)}</p>
-			<br>
+	<div class="bg-surface-900 border-surface-800 z-50 mt-10 flex h-100 w-full rounded border p-10">
+		<div class="text-secondary-500 mr-10 h-full">
+			<p class="">licences avalable: {movie.available_licenses}</p>
+			<p>movie length: {formatTime(movie.length)}</p>
+			<br />
 			{#each cast as category}
-				<p> <strong>{category.task}</strong>:
-					<br>
-					{#each category.names as castmember}
-						{castmember} <br>
-						
+				<p>
+					<strong>{category.task}</strong>:
+					<br />
+					{#each category.people as castmember}
+						{castmember.name} <br />
 					{/each}
-					<br>
+					<br />
 				</p>
-				
 			{/each}
 		</div>
 		{#if userOwnsMovie}
-
-			<button bind:this={focusOnLoad}
+			<button
+				bind:this={focusOnLoad}
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
 			>
-				<p class="flex">Watch now</p><TvMinimalPlay class="flex"/>
+				<p class="flex">Watch now</p>
+				<TvMinimalPlay class="flex" />
 			</button>
-			<button bind:this={focusOnLoad}
-				class="btn btn-lg btn-block text-secondary-400 bg-surface-900 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2 ml-10 transition-colors duration-150 hover:underline"
+			<button
+				bind:this={focusOnLoad}
+				class="btn btn-lg btn-block text-secondary-400 bg-surface-900 focus:ring-secondary-300 ml-10 h-27 rounded-xl shadow-md transition-colors duration-150 hover:underline focus:ring-2"
 			>
-				<p class="flex">return movie</p><ReturnIcon class="flex"/>
+				<p class="flex">return movie</p>
+				<ReturnIcon class="flex" />
 			</button>
-		{:else}
-		{#if licencesAvalable > 0}
-			<button bind:this={focusOnLoad}
+		{:else if movie.available_licenses > 0}
+			<button
+				bind:this={focusOnLoad}
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
 			>
 				<p>rent movie for {amountDays} days</p>
-				<p> for {preis}</p>
+				<p>for {movie.price}</p>
 			</button>
 		{:else}
-			<button bind:this={focusOnLoad}
+			<button
+				bind:this={focusOnLoad}
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
 			>
 				<p>make a reservation</p>
 			</button>
 		{/if}
-		{/if}
-			
 	</div>
-	
-</main>
+</div>

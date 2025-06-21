@@ -22,6 +22,7 @@ export async function GET({ params }) {
         fsk: result.fsk_name,
         price: result.price,
         video: result.video,
+        length: result.length,
         imdb_id: result.imdb_id,
         tmdb_id: result.tmdb_id,
         genres: result.genres || [],
