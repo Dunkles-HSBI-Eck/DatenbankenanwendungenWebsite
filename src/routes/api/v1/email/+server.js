@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { getTier } from '$lib/server/database.js';
+import { getEmail } from '$lib/server/database.js';
 
 export async function GET( { locals } ) {
 
@@ -7,9 +7,9 @@ export async function GET( { locals } ) {
         return json({ error: 'Not authenticated' }, { status: 401 });
     }
 
-    const result = await getTier(locals.userId);
+    const result = await getEmail(locals.userId);
 
     return json({
-        current_tier: result[0]?.tier_id ?? null
+        email: result[0]?.email ?? null
     });
 }

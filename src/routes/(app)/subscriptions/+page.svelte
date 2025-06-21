@@ -4,7 +4,7 @@
 
 	let subscriptions = [];
 
-	let currentPlanID = 5;
+	let currentPlanID = 0;
 
 	onMount(async () => {
 		const response = await fetch(`/api/v1/tiers`);
@@ -13,11 +13,8 @@
 		const response2 = await fetch(`/api/v1/tier`);
 		const data2 = await response2.json();
 
-		// Set currentPlanID from API
-		if (data2.tiers && data2.tiers.length > 0) {
-			currentPlanID = data2.tiers[0].current_tier;
-		}
-
+		currentPlanID = data2.current_tier;
+		
 		// Map API data to your subscriptions structure
 		subscriptions = data.tiers.map(tier => ({
 			id: tier.id,

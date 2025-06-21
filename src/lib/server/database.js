@@ -153,7 +153,23 @@ export async function getTier(user_id) {
         }
         return result.rows[0].tier;
     } catch (error) {
-        console.error('Error fetching tiers:', error);
-        throw new GenricDatabaseError('Database error while fetching tiers');
+        console.error('Error fetching tier:', error);
+        throw new GenricDatabaseError('Database error while fetching tier');
+    }
+}
+
+export async function getEmail(user_id) {
+    try {
+        const result = await pool.query(
+            'CALL get_user_email($1, null)',
+            [user_id]
+        );
+        if (result.rows.length === 0) {
+            return null;
+        }
+        return result.rows[0].tier;
+    } catch (error) {
+        console.error('Error fetching email:', error);
+        throw new GenricDatabaseError('Database error while fetching email');
     }
 }
