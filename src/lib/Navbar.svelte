@@ -12,7 +12,7 @@
 </script>
 
 <nav class="text-secondary-400 fixed top-0 left-0 z-40 w-full">
-	<div class="bg-surface-900 border border-surface-800 flex items-center justify-between gap-2 rounded-lg p-4 shadow-2xl">
+	<div class="bg-surface-900 border border-surface-800 flex items-center justify-between gap-2 rounded-b-lg p-4 shadow-2xl">
 		<div class="w-[12.5rem]">
 			<a href="/" class="h-12 w-12 rounded-lg">
 				<img src="/logo_cropped.png" alt="Logo" class="bg-secondary-500 h-12 w-12 rounded-lg p-1" />
