@@ -9,6 +9,7 @@ export async function GET({ locals }) {
 	const result = await getTier(locals.userId);
 
 	return json({
-		current_tier: result[0]?.tier_id ?? null
+		id: result[0]?.tier_id ?? null,
+		name: result[0]?.name ?? null
 	});
 }
