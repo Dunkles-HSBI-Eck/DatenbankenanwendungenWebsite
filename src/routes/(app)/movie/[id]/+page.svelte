@@ -76,11 +76,11 @@
 			bind:this={focusOnLoad}
 			class="bg-surface-900 border-surface-800 shadow-surface-950 w-full items-baseline rounded border p-10 shadow-2xl"
 		>
-			<h1 class="text-secondary-500 m-1 text-8xl font-medium">{movie.title}</h1>
+			<h1 class="text-secondary-500 m-1 text-xl font-medium">{movie.title}</h1>
 			<br />
-			<p class="text-secondary-500 text-2xl font-medium">{movie.release}</p>
+			<p class="text-secondary-500 font-medium">{movie.release}</p>
 			<br />
-			<p class="text-secondary-500 bottom-1 text-2xl font-medium">{movie.description}</p>
+			<p class="text-secondary-500 bottom-1 font-medium">{movie.description}</p>
 			<div class="flex w-full">
 				{#each movie.genres as genre}
 					<TagCard name={genre.name} class="flex" />
