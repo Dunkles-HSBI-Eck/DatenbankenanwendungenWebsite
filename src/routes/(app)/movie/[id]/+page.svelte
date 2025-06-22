@@ -43,7 +43,21 @@
 		showBorrowWindow = false;
 	}
 
-	function openBorrowWindow() {
+	async function returnMovie() {
+		const returnRespond = await fetch('/api/v1/movies/return', {
+			method: 'POST',
+			body: JSON.stringify({
+				movieId: movieId
+			})
+		});
+	}
+	async function openBorrowWindow() {
+		const rentRespond = await fetch('/api/v1/movies/rent', {
+			method: 'POST',
+			body: JSON.stringify({
+				movieId: movieId
+			})
+		});
 		showBorrowWindow = true;
 	}
 </script>
@@ -101,6 +115,7 @@
 					</div></a
 				>
 				<button
+					onclick={returnMovie}
 					class="btn btn-lg btn-block text-secondary-400 bg-surface-900 focus:ring-secondary-300 ml-10 h-27 rounded-xl shadow-md transition-colors duration-150 hover:underline focus:ring-2"
 				>
 					<p class="flex">return movie</p>
