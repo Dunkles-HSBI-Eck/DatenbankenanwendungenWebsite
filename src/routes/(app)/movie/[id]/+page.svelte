@@ -8,8 +8,7 @@
 
 	let { data } = $props();
 	let { movieId, movie, ownsMovie, isLoggedIn } = data;
-
-	let userOwnsMovie = $state(ownsMovie);
+	let UserOwnsMovie = $state(ownsMovie);
 	let cast = $state();
 
 	let showBorrowWindow = $state(false);
@@ -43,7 +42,24 @@
 		showBorrowWindow = false;
 	}
 
-	function openBorrowWindow() {
+	async function returnMovie() {
+		const returnRespond = await fetch('/api/v1/movies/return', {
+			method: 'POST',
+			body: JSON.stringify({
+				movieId: movieId
+			})
+		});
+		if(returnRespond.ok){
+			UserOwnsMovie = false;
+		}
+	}
+	async function openBorrowWindow() {
+		const rentRespond = await fetch('/api/v1/movies/rent', {
+			method: 'POST',
+			body: JSON.stringify({
+				movieId: movieId
+			})
+		});
 		showBorrowWindow = true;
 	}
 </script>
@@ -97,7 +113,7 @@
 		{/each}
 	</div>
 	{#if isLoggedIn}
-		{#if userOwnsMovie}
+		{#if UserOwnsMovie}
 			<a href="/watch"
 				><div
 					class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
@@ -107,6 +123,7 @@
 				</div></a
 			>
 			<button
+			onclick={returnMovie}
 				class="btn btn-lg btn-block text-secondary-400 bg-surface-900 focus:ring-secondary-300 ml-10 h-27 rounded-xl shadow-md transition-colors duration-150 hover:underline focus:ring-2"
 			>
 				<p class="flex">return movie</p>
