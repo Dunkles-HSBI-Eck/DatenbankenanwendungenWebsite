@@ -52,12 +52,15 @@
 	<BorrowWindow movieTitle={movie.title} cancelFunction={cancelBorrowing} price = {movie.price}/>
 {/if}
 
-<div>
-	<div class="fixed top-0 left-0 -z-30 h-full w-full">
-		<img src="/api/v1/images/banners/{movie.banner}" alt="thumbnail" class="h-full object-cover brightness-75" />
+
+	<div class=" -z-30 w-screen  overflow-hidden -mt-12 h-[50rem]">
+		<img src="/api/v1/images/banners/{movie.banner}" alt="thumbnail" class="w-full object-cover brightness-75" />
 	</div>
 
-	<div class=" z-40 flex w-250 pt-200 pl-10">
+
+	<div class=" bottom-0 bottom h-96 bg-surface-900 border-surface-800 z-40 flex w-full rounded border p-10 relative">
+
+<div class=" z-40 flex w-250 pt-20 pl-10 absolute -left-10 bottom-[26.5rem]">
 		<div
 			bind:this={focusOnLoad}
 			class="bg-surface-900 border-surface-800 shadow-surface-950 w-full items-baseline rounded border p-10 shadow-2xl"
@@ -74,7 +77,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="bg-surface-900 border-surface-800 z-50 mt-10 flex h-100 w-full rounded border p-10">
+
 		<div class="text-secondary-500 mr-10 h-full">
 			<p class="">licences avalable: {movie.available_licenses}</p>
 			<p>movie length: {formatTime(movie.length)}</p>
@@ -140,4 +143,3 @@
 			</div>
 		{/if}
 	</div>
-</div>
