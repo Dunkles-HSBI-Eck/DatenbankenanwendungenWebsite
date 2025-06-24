@@ -162,7 +162,7 @@ export async function getEmail(user_id) {
 
 export async function rentMovie(user_id, movie_id) {
 	try {
-		const result = await pool.query('CALL rent_movie($1, $2, null, null)', [movie_id, user_id]);
+		const result = await pool.query('CALL rent_movie($1, $2, null)', [user_id, movie_id]);
 		if (result.rows.length === 0) {
 			return null;
 		}
@@ -175,7 +175,7 @@ export async function rentMovie(user_id, movie_id) {
 
 export async function returnMovie(user_id, movie_id) {
 	try {
-		const result = await pool.query('CALL return_movie($1, $2, null, null)', [user_id, movie_id]);
+		const result = await pool.query('CALL return_movie($1, $2, null)', [user_id, movie_id]);
 		if (result.rows.length === 0) {
 			return null;
 		}
@@ -183,5 +183,18 @@ export async function returnMovie(user_id, movie_id) {
 	} catch (error) {
 		console.error('Error renting movie:', error);
 		throw new GenricDatabaseError('Database error while renting a movie');
+	}
+}
+
+export async function getReservations(user_id) {
+	try {
+		const result = await pool.query('CALL get_reservations($1, null)', [user_id]);
+		if (result.rows.length === 0) {
+			return null;
+		}
+		return result.rows[0].reservations;
+	} catch (error) {
+		console.error('Error fetching reservations:', error);
+		throw new GenricDatabaseError('Database error while fetching reservations');
 	}
 }

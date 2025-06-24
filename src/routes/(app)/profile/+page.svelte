@@ -10,27 +10,33 @@
 	let { profilePic, data } = $props();
 	let BorrowedTableData = $state([]);
 
-	let ReservedTableData = [
-		{ titel: 'bdfbd', availible: true },
-		{ titel: 'asdasd', availible: false }
-	];
+	let ReservedTableData = $state([]);
 
 	let maxLeihverträge = 5;
 	let userEmail = $derived(data.userMail);
 	let userTier = $derived(data.userTier);
 
 	onMount(async () => {
-		const response = await fetch('/api/v1/borrowedMovies');
-		const data = await response.json();
-		// Map API data to table format
-		BorrowedTableData = data.movies.map((movie) => ({
-			id: movie.id,
-			titel: movie.name,
-			startDate: movie.rentalDate,
-			timeLeft: movie.timeLeft
-		}));
-		console.log(BorrowedTableData);
-	});
+        const response = await fetch('/api/v1/borrowedMovies');
+        const data = await response.json();
+        BorrowedTableData = data.movies.map((movie) => ({
+            id: movie.id,
+            titel: movie.name,
+            startDate: movie.rentalDate,
+            timeLeft: movie.timeLeft
+        }));
+
+        const response2 = await fetch('/api/v1/reservations');
+        const data2 = await response2.json();
+
+        ReservedTableData = data2.reservations.map((reservation) => ({
+            id: reservation.id,
+            titel: reservation.title,
+            status: reservation.status
+        }));
+
+        console.log(data2);
+    });
 
 	async function logout() {
 		const response = await fetch('/api/v1/logout');

@@ -1,6 +1,15 @@
 <script>
 	export let tableData = [];
 	export let maxLeihverträge;
+
+	async function returnMovie(movieId) {
+		const returnRespond = await fetch('/api/v1/movies/return', {
+			method: 'POST',
+			body: JSON.stringify({
+				movieId: movieId
+			})
+		});
+	}
 </script>
 
 <div class="card w-full rounded-2xl">
@@ -21,8 +30,14 @@
 						{row.timeLeft} <strong> Tage</strong>
 					</div>
 					<div class="text-secondary-400">
-						<button class="btn bg-primary-500" type="button"> zurück geben </button>
-					</div>
+                        <button
+                            class="btn bg-primary-500"
+                            type="button"
+                            on:click={() => returnMovie(row.id)}
+                        >
+                            zurück geben
+                        </button>
+                    </div>
 				</div>
 			</div>
 		{/each}
