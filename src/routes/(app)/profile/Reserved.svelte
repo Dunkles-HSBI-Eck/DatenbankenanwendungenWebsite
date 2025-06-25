@@ -8,6 +8,10 @@
 				movieId: movieId
 			})
 		});
+		if(rentRespond.ok)
+		{
+			location.reload();
+		}
 	}
 </script>
 

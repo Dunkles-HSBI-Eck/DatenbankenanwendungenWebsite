@@ -9,6 +9,10 @@
 				movieId: movieId
 			})
 		});
+		if(returnRespond.ok)
+		{
+			location.reload();
+		}
 	}
 </script>
 
