@@ -127,6 +127,7 @@
 					src="/api/v1/images/covers/{movie.cover}"
 					alt={movie.title}
 					class="h-60"
+					loading="lazy"
 				/>
 			{/each}
 		</div>
