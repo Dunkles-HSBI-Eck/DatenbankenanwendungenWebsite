@@ -5,12 +5,15 @@
 	import { onMount } from 'svelte';
 	import { lastMovie } from '$lib/store.js';
 	import BorrowWindow from '$lib/BorrowWindow.svelte';
+	import { Check as CheckmarkIcon } from '@lucide/svelte';
+
 
 	let { data } = $props();
-	let { movieId, movie, ownsMovie, isLoggedIn } = data;
+	let { movieId, movie, ownsMovie, isLoggedIn, reservedMovie } = data;
 	let UserOwnsMovie = $state(ownsMovie);
+	let UserReservedMovie = $state(reservedMovie);
 	let cast = $state();
-
+	movie.available_licenses = 0;
 	let showBorrowWindow = $state(false);
 	cast = [
 		{ task: 'Director', people: movie.directors },
@@ -42,6 +45,11 @@
 		showBorrowWindow = false;
 	}
 
+	function reserveMovie()
+	{
+		UserReservedMovie = true;
+	}
+
 	async function returnMovie() {
 		const returnRespond = await fetch('/api/v1/movies/return', {
 			method: 'POST',
@@ -53,6 +61,7 @@
 			UserOwnsMovie = false;
 		}
 	}
+	
 	async function openBorrowWindow() {
 		const rentRespond = await fetch('/api/v1/movies/rent', {
 			method: 'POST',
@@ -138,11 +147,25 @@
 				<p>for {movie.price}€</p>
 			</button>
 		{:else}
-			<button
+			
+			{#if UserReservedMovie}
+				<div
+				class="btn btn-lg btn-block border-surface-800 text-secondary-400 bg-surface-900 h-27 rounded-xl shadow-md"
+				>
+					<p>reserved</p><CheckmarkIcon/>
+				</div>
+				<p class="text-secondary-400 p-10">You will be notified if this movie becomes avalable again.</p>
+			{:else}
+				<button
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
-			>
+				onclick={reserveMovie}
+				>
 				<p>make a reservation</p>
-			</button>
+				</button>
+			{/if}	
+		
+		
+			
 		{/if}
 	{:else}
 		<div class="text-secondary-500 p-10">

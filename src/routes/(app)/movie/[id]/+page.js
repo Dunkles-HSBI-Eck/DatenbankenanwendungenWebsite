@@ -18,11 +18,28 @@ export async function load({ params, fetch }) {
 			}
 		}
 	}
+	let reservedMovie = false;
+	const response3 = await fetch("/api/v1/reservations");
+	const reserveData = await response3.json();
+	if(response3.status == 401){
+		reservedMovie = false;
+	}
+	else{
+		for(let i = 0; i < reserveData.reservations.length; i++)
+		{
+			if(reserveData.reservations[i].id == params.id)
+			{
+				reservedMovie = true;
+				break;
+			}
+		}
+	}
 
 	return {
 		movieId: params.id,
 		movie,
 		ownsMovie,
-		isLoggedIn
+		isLoggedIn,
+		reservedMovie
 	};
 }
