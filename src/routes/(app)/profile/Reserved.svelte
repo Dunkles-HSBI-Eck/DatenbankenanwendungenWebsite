@@ -17,7 +17,7 @@
 
 <div class="card w-full rounded-2xl">
 	<div class="text-secondary-400 mb-2 text-center text-sm font-medium opacity-70">
-		Vorgemerkte Filme:
+		Reserved Movies:
 	</div>
 	<div class="text-secondary-400 mb-2 text-center text-sm font-medium opacity-70">
 		{tableData.length}
@@ -30,10 +30,10 @@
 					<div class="text-secondary-400 ml-4">
                         {#if row.status}
                             <button class="btn bg-primary-500" type="button" on:click={() => rentMovie(row.id)}>
-                                Ausleihen
+                                Rent movie
                             </button>
                         {:else}
-                            <span>Not jet availible</span>
+                            <span>Not yet availible</span>
                         {/if}
                     </div>
 				</div>

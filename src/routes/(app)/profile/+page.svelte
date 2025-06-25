@@ -50,7 +50,7 @@
 <div class="relative flex w-full flex-col items-center gap-6">
 	<div class="flex w-full max-w-4xl flex-col justify-center gap-6 md:flex-row">
 		<div class="card bg-surface-950 border-surface-200-800 mb-2 flex-1 border-[1px] p-6">
-			<div class="text-primary-400 mb-2 text-lg font-bold">Profil</div>
+			<div class="text-primary-400 mb-2 text-lg font-bold">Profile</div>
 			<div class="text-secondary-400 mb-1">
 				<span class="font-semibold">E-Mail:</span>
 				{userEmail}

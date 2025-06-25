@@ -18,7 +18,7 @@
 
 <div class="card w-full rounded-2xl">
 	<div class="text-secondary-400 mb-2 text-center text-sm font-medium opacity-70">
-		Geliehene Filme:
+		Rented Movies:
 	</div>
 	<div class="text-secondary-400 mb-2 text-center text-sm font-medium opacity-70">
 		{tableData.length}/{maxLeihverträge}
@@ -28,10 +28,10 @@
 			<div class="card bg-surface-900 w-full max-w-md rounded-3xl p-4">
 				<div class="text-secondary-400 mb-2 text-lg font-bold">{row.titel}</div>
 				<div class="flex flex-row items-center justify-between gap-4">
-					<div class="text-secondary-400"><strong>Ausgeliehen am:</strong> {row.startDate}</div>
+					<div class="text-secondary-400"><strong>Rented on:</strong> {row.startDate}</div>
 					<div class="text-secondary-400">
-						<strong>Noch Verügbar für:</strong>
-						{row.timeLeft} <strong> Tage</strong>
+						<strong>Available:</strong>
+						{row.timeLeft} <strong> Days</strong>
 					</div>
 					<div class="text-secondary-400">
                         <button
@@ -39,7 +39,7 @@
                             type="button"
                             on:click={() => returnMovie(row.id)}
                         >
-                            zurück geben
+                            Return movie
                         </button>
                     </div>
 				</div>
