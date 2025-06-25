@@ -13,7 +13,6 @@
 	let UserOwnsMovie = $state(ownsMovie);
 	let UserReservedMovie = $state(reservedMovie);
 	let cast = $state();
-	movie.available_licenses = 0;
 	let showBorrowWindow = $state(false);
 	cast = [
 		{ task: 'Director', people: movie.directors },
@@ -61,20 +60,28 @@
 			UserOwnsMovie = false;
 		}
 	}
-	
+
 	async function openBorrowWindow() {
+		showBorrowWindow = true;
+	}
+
+	async function confirmBorrowing() {
 		const rentRespond = await fetch('/api/v1/movies/rent', {
 			method: 'POST',
 			body: JSON.stringify({
 				movieId: movieId
 			})
 		});
-		showBorrowWindow = true;
+		showBorrowWindow = false;
+		if(rentRespond.ok)
+		{
+			UserOwnsMovie = true;
+		}
 	}
 </script>
 
 {#if showBorrowWindow}
-	<BorrowWindow movieTitle={movie.title} cancelFunction={cancelBorrowing} price={movie.price} />
+	<BorrowWindow movieTitle={movie.title} cancelFunction={cancelBorrowing} price={movie.price} confirmFunction={confirmBorrowing}/>
 {/if}
 
 <div class=" -z-30 -mt-12 h-[50rem] w-screen overflow-hidden">

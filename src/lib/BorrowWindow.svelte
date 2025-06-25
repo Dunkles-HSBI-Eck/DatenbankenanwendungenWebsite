@@ -2,7 +2,7 @@
 	import { X as XIcon } from '@lucide/svelte';
 	import { bounceOut, cubicOut, sineOut } from 'svelte/easing';
 	import { fly } from 'svelte/transition';
-	let { movieTitle, cancelFunction, price } = $props();
+	let { movieTitle, cancelFunction, price, confirmFunction } = $props();
 </script>
 
 <div class="text-secondary-500 fixed z-50 flex h-full w-full items-center justify-center pt-60">
@@ -23,7 +23,10 @@
 				onclick={cancelFunction}
 				class="bg-surface-700 hover:bg-surface-600 flex rounded px-4 py-2">Cancel</button
 			>
-			<button class="bg-primary-500 hover:bg-primary-600 flex rounded px-4 py-2">Confirm</button>
+			<button 
+				onclick={confirmFunction}
+				class="bg-primary-500 hover:bg-primary-600 flex rounded px-4 py-2">Confirm</button
+				>
 		</div>
 	</div>
 </div>
