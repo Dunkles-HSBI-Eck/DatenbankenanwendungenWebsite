@@ -44,9 +44,18 @@
 		showBorrowWindow = false;
 	}
 
-	function reserveMovie()
+	async function reserveMovie()
 	{
-		UserReservedMovie = true;
+		const reserveRespond = await fetch('/api/v1/reservations/reserve', {
+			method: 'POST',
+			body: JSON.stringify({
+				movieId: movieId
+			})
+		});
+		if(reserveRespond.ok)
+		{
+			UserReservedMovie = true;
+		}
 	}
 
 	async function returnMovie() {
