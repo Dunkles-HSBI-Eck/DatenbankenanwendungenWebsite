@@ -1,4 +1,5 @@
 <script>
+	import { ProgressRing } from '@skeletonlabs/skeleton-svelte';
 	import Borrowed from './Borrowed.svelte';
 	import Reserved from './Reserved.svelte';
 	import { ArrowLeft } from '@lucide/svelte';
@@ -15,6 +16,8 @@
 	let maxLeihverträge = 5;
 	let userEmail = $derived(data.userMail);
 	let userTier = $derived(data.userTier);
+	let logoutLoading= $state(false);
+	
 
 	onMount(async () => {
 		const response = await fetch('/api/v1/borrowedMovies');
@@ -39,11 +42,13 @@
 	});
 
 	async function logout() {
+		logoutLoading = true;
 		const response = await fetch('/api/v1/logout');
 		if (response.ok) {
 			userId.set(null);
 			goto('/');
 		}
+		logoutLoading = false;
 	}
 </script>
 
@@ -64,9 +69,22 @@
 				<a class="btn bg-primary-500 text-secondary-400 self-start" href="/subscriptions">
 					Change plan
 				</a>
+				{#if !logoutLoading}
 				<button onclick={logout} class="btn bg-primary-500 text-secondary-400 self-start">
 					Logout
 				</button>
+				{:else}
+				<div class="btn bg-primary-900 text-secondary-400 self-start">
+					Logout
+					<ProgressRing
+					value={null}
+					size="size-5"
+					meterStroke="stroke-secondary-600-400"
+					trackStroke="stroke-primary-50-950"
+				/>
+				</div>
+				
+				{/if}
 			</div>
 		</div>
 		<div class="card bg-surface-950 border-surface-200-800 mb-2 flex-1 border-[1px] p-6">

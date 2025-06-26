@@ -12,6 +12,7 @@
 		//hier API call
 		showLoading = false;
 		submitted = true;
+		wish='';
 	}
 </script>
 
