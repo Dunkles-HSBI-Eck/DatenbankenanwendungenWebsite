@@ -9,7 +9,7 @@
 
 
 	let { data } = $props();
-	let { movieId, movie, ownsMovie, isLoggedIn, reservedMovie } = data;
+	let { movieId, movie, ownsMovie, isLoggedIn, reservedMovie, reservationAvalable } = data;
 	let UserOwnsMovie = $state(ownsMovie);
 	let UserReservedMovie = $state(reservedMovie);
 	let cast = $state();
@@ -172,7 +172,8 @@
 				<p class="flex">return movie</p>
 				<ReturnIcon class="flex" />
 			</button>
-		{:else if movie.available_licenses > 0}
+		{:else if movie.available_licenses > 0 || reservationAvalable}
+			<div>
 			<button
 				onclick={openBorrowWindow}
 				class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 h-27 rounded-xl shadow-md focus:ring-2"
@@ -184,6 +185,11 @@
 				<p>for <strike class="text-secondary-700">{convertToPrice(movie.price)}</strike> <strong> {convertToPrice(movie.final_price)}</strong></p>
 				{/if}
 			</button>
+			{#if reservationAvalable}
+			
+			<p class="pt-5 text-secondary-500">Because of your reservation this movie is avalable to you.</p>
+			{/if}
+			</div>
 		{:else}
 			
 			{#if UserReservedMovie}

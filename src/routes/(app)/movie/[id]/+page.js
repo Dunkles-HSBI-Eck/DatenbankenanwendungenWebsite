@@ -18,6 +18,7 @@ export async function load({ params, fetch }) {
 			}
 		}
 	}
+	let reservationAvalable = false;
 	let reservedMovie = false;
 	const response3 = await fetch("/api/v1/reservations");
 	const reserveData = await response3.json();
@@ -29,6 +30,10 @@ export async function load({ params, fetch }) {
 		{
 			if(reserveData.reservations[i].id == params.id)
 			{
+				if(reserveData.reservations[i].status)
+				{
+					reservationAvalable = true;
+				}
 				reservedMovie = true;
 				break;
 			}
@@ -40,6 +45,7 @@ export async function load({ params, fetch }) {
 		movie,
 		ownsMovie,
 		isLoggedIn,
-		reservedMovie
+		reservedMovie,
+		reservationAvalable
 	};
 }
