@@ -78,6 +78,24 @@
 			UserOwnsMovie = true;
 		}
 	}
+
+	function convertToPrice(number){
+		let string = number.toString();
+		let dot = string.indexOf(".");
+		if(dot == -1){
+			return string + ".00€";
+		}
+		else{
+			if(dot + 3 > string.length){
+				string = string + "0";
+				if(dot + 3 > string.length){
+					string = string + "0"
+				}
+			}
+			return string.substring(0, dot +3) + "€";
+		}
+	}
+
 </script>
 
 {#if showBorrowWindow}
@@ -93,9 +111,9 @@
 </div>
 
 <div
-	class=" bottom bg-surface-900 border-surface-800 relative bottom-0 z-40 flex h-96 w-full rounded border p-10"
+	class=" bottom bg-surface-900 border-surface-800 relative bottom-0 z-40 flex h-150 w-full rounded border p-10"
 >
-	<div class=" absolute bottom-[26.5rem] -left-10 z-40 flex w-250 pt-20 pl-10">
+	<div class=" absolute bottom-[38.5rem] -left-10 z-40 flex w-250 pt-20 pl-10">
 		<div
 			bind:this={focusOnLoad}
 			class="bg-surface-900 border-surface-800 shadow-surface-950 w-full items-baseline rounded border p-10 shadow-2xl"
@@ -154,7 +172,7 @@
 				{#if movie.price == movie.final_price}
 				<p>for {movie.final_price}€</p>
 				{:else}
-				<p>for <strike class="text-secondary-700">{movie.price}€</strike> <strong> {movie.final_price}€</strong></p>
+				<p>for <strike class="text-secondary-700">{convertToPrice(movie.price)}</strike> <strong> {convertToPrice(movie.final_price)}</strong></p>
 				{/if}
 			</button>
 		{:else}
