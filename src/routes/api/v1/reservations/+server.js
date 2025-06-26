@@ -8,8 +8,6 @@ export async function GET({ locals }) {
 	// Get the reservations from the database
 	const result = await getReservations(locals.userId);
 
-	console.log(result);
-
 	return json({
 		reservations:
 			result?.map((reservation) => ({
