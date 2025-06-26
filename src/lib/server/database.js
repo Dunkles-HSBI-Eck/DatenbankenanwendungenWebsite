@@ -198,3 +198,16 @@ export async function getReservations(user_id) {
 		throw new GenricDatabaseError('Database error while fetching reservations');
 	}
 }
+
+export async function reserveMovie(user_id, movie_id) {
+	try {
+		const result = await pool.query('CALL add_reservation($1, $2, null)', [user_id, movie_id]);
+		if (result.rows.length === 0) {
+			return null;
+		}
+		return result.rows[0].status;
+	} catch (error) {
+		console.error('Error fetching reservations:', error);
+		throw new GenricDatabaseError('Database error while fetching reservations');
+	}
+}
