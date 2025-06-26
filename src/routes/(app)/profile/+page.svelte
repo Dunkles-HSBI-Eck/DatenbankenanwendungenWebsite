@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 	import { userId } from '$lib/store.js';
 	import { goto } from '$app/navigation';
-
+	import WishMovie from './WishMovie.svelte';
 
 	let { profilePic, data } = $props();
 	let BorrowedTableData = $state([]);
@@ -17,26 +17,26 @@
 	let userTier = $derived(data.userTier);
 
 	onMount(async () => {
-        const response = await fetch('/api/v1/borrowedMovies');
-        const data = await response.json();
-        BorrowedTableData = data.movies.map((movie) => ({
-            id: movie.id,
-            titel: movie.name,
-            startDate: movie.rentalDate,
-            timeLeft: movie.timeLeft
-        }));
+		const response = await fetch('/api/v1/borrowedMovies');
+		const data = await response.json();
+		BorrowedTableData = data.movies.map((movie) => ({
+			id: movie.id,
+			titel: movie.name,
+			startDate: movie.rentalDate,
+			timeLeft: movie.timeLeft
+		}));
 
-        const response2 = await fetch('/api/v1/reservations');
-        const data2 = await response2.json();
+		const response2 = await fetch('/api/v1/reservations');
+		const data2 = await response2.json();
 
-        ReservedTableData = data2.reservations.map((reservation) => ({
-            id: reservation.id,
-            titel: reservation.title,
-            status: reservation.status
-        }));
+		ReservedTableData = data2.reservations.map((reservation) => ({
+			id: reservation.id,
+			titel: reservation.title,
+			status: reservation.status
+		}));
 
-        console.log(data2);
-    });
+		console.log(data2);
+	});
 
 	async function logout() {
 		const response = await fetch('/api/v1/logout');
@@ -77,7 +77,7 @@
 				<input
 					id="current-password"
 					type="password"
-					class="input input-sm bg-surface-800 border-surface-700 rounded border px-2 py-1"
+					class="input input-sm bg-surface-800 border-surface-700 rounded border px-2 py-1 focus:outline-none"
 					autocomplete="current-password"
 				/>
 				<label class="text-secondary-400 text-sm font-semibold" for="new-password"
@@ -86,7 +86,7 @@
 				<input
 					id="new-password"
 					type="password"
-					class="input input-sm bg-surface-800 border-surface-700 rounded border px-2 py-1"
+					class="input input-sm bg-surface-800 border-surface-700 rounded border px-2 py-1 focus:outline-none"
 					autocomplete="new-password"
 				/>
 				<label class="text-secondary-400 text-sm font-semibold" for="confirm-password"
@@ -95,7 +95,7 @@
 				<input
 					id="confirm-password"
 					type="password"
-					class="input input-sm bg-surface-800 border-surface-700 rounded border px-2 py-1"
+					class="input input-sm bg-surface-800 border-surface-700 rounded border px-2 py-1 focus:outline-none"
 					autocomplete="new-password"
 				/>
 				<button type="button" class="btn btn-xs bg-primary-500 text-secondary-400 mt-2 self-end"
@@ -111,5 +111,8 @@
 		<div class="card bg-surface-950 border-surface-200-800 flex-1 border-[1px] p-8">
 			<Reserved tableData={ReservedTableData} />
 		</div>
+	</div>
+	<div class="card bg-surface-950 border-surface-200-800 flex-1 border-[1px] p-8">
+		<WishMovie />
 	</div>
 </div>
