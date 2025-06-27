@@ -55,9 +55,9 @@ export async function verifyUser(email, hash) {
 	}
 }
 
-export async function getMovies(limit, offset) {
+export async function getMovies(limit, offset, search = '', order_by = 'id', order = 'asc', genres = []) {
 	try {
-		const result = await pool.query('CALL get_movies($1, $2, null, null)', [limit, offset]);
+		const result = await pool.query('CALL get_movies($1, $2, $3, $4, $5, $6, null, null)', [limit, offset, search, order_by, order, genres]);
 
 		return {
 			movies: result.rows[0].movies,
