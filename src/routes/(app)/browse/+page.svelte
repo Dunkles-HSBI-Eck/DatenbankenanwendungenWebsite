@@ -7,7 +7,7 @@
 
 	let { data } = $props();
 
-    let movies = $state(data.movies.movies);
+    let movies = $derived(data.movies.movies);
     let search = $derived(data.searchString || '');
     let lastSearch;
 
@@ -38,29 +38,6 @@
     let lastFetchTime = Date.now();
     let fetchTimeout;
     const fetchDelay = 500;
-
-
-	$effect(async () => {
-		if (firstLoad) {
-			firstLoad = false;
-			return;
-		}
-		if (search === lastSearch) return;
-
-		lastSearch = search;
-
-        if (fetchTimeout) {
-            clearTimeout(fetchTimeout);
-        }
-
-        fetchTimeout = setTimeout(async () => {
-            lastId = '';
-            hasMore = true;
-            movies = [];
-            await getMovies();
-        }, lastFetchTime + fetchDelay - Date.now());
-        lastFetchTime = Date.now();
-	});
 
 	async function getMovies() {
 		if (!hasMore || isLoading) return;
