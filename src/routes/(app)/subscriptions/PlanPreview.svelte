@@ -2,6 +2,19 @@
 	export let plan;
 	export let selected = false;
 	import { ArrowLeft } from '@lucide/svelte';
+
+	async function changePlan() {
+
+		const returnRespond = await fetch('/api/v1/tier/update', {
+			method: 'POST',
+			body: JSON.stringify({
+				tierId: plan.id
+			})
+		});
+
+		location.reload();
+		
+	}
 </script>
 
 <div class="relative mt-8 flex w-full flex-col items-center gap-6">
@@ -23,6 +36,7 @@
 					<p class="text-success-400 text-lg font-bold">Current Plan</p>
 				{:else}
 					<button
+						on:click={changePlan}
 						class="btn btn-lg btn-block text-secondary-400 bg-primary-500 focus:ring-secondary-300 rounded-xl shadow-md focus:ring-2"
 						>Change Plan</button
 					>

@@ -211,3 +211,16 @@ export async function reserveMovie(user_id, movie_id) {
 		throw new GenricDatabaseError('Database error while fetching reservations');
 	}
 }
+
+export async function updateTier(user_id, tier_id) {
+	try {
+		const result = await pool.query('CALL update_tier($1, $2, null)', [user_id, tier_id]);
+		if (result.rows.length === 0) {
+			return null;
+		}
+		return result.rows[0].status;
+	} catch (error) {
+		console.error('Error updating tier:', error);
+		throw new GenricDatabaseError('Database error while updating tier');
+	}
+}
