@@ -9,7 +9,12 @@
 			return;
 		}
 		showLoading = true;
-		//hier API call
+		const returnRespond = await fetch('/api/v1/request', {
+			method: 'POST',
+			body: JSON.stringify({
+				message: wish
+			})
+		});
 		showLoading = false;
 		submitted = true;
 		wish='';

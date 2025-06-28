@@ -224,3 +224,16 @@ export async function updateTier(user_id, tier_id) {
 		throw new GenricDatabaseError('Database error while updating tier');
 	}
 }
+
+export async function addRequest(user_id, message) {
+	try {
+		const result = await pool.query('CALL add_request($1, $2, null)', [user_id, message]);
+		if (result.rows.length === 0) {
+			return null;
+		}
+		return result.rows[0].status;
+	} catch (error) {
+		console.error('Error inserting request:', error);
+		throw new GenricDatabaseError('Database error while inserting request');
+	}
+}
