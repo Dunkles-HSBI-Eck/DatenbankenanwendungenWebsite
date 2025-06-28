@@ -7,7 +7,7 @@ export async function GET({ url }) {
     const search = url.searchParams.get('search') || '';
     const order_by = url.searchParams.get('order_by') || 'id';
     const order = url.searchParams.get('order') || 'asc';
-    const genres = url.searchParams.get('genres')?.split(',') || [];
+    const genres = url.searchParams.get('genres') ? url.searchParams.get('genres').split(",") : [];
 
     if( !['id', 'release', 'alphabetical'].includes(order_by)) {
         return json({ error: 'Invalid order_by parameter' }, { status: 400 });

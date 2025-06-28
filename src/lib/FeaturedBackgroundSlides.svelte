@@ -126,8 +126,7 @@
 					bind:clientWidth={cardWidth}
 					src="/api/v1/images/covers/{movie.cover}"
 					alt={movie.title}
-					class="h-60"
-					loading="lazy"
+					class="h-60 rounded-lg"
 				/>
 			{/each}
 		</div>
