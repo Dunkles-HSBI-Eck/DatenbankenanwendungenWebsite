@@ -9,7 +9,7 @@
 			return;
 		}
 		showLoading = true;
-		const returnRespond = await fetch('/api/v1/request', {
+		const returnRespond = await fetch('/api/v1/movies/request', {
 			method: 'POST',
 			body: JSON.stringify({
 				message: wish

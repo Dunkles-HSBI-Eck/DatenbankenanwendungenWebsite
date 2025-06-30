@@ -3,12 +3,7 @@
 	export let maxLeihverträge;
 
 	async function returnMovie(movieId) {
-		const returnRespond = await fetch('/api/v1/movies/return', {
-			method: 'POST',
-			body: JSON.stringify({
-				movieId: movieId
-			})
-		});
+		const returnRespond = await fetch(`/api/v1/movies/${movieId}/return`);
 		if(returnRespond.ok)
 		{
 			location.reload();

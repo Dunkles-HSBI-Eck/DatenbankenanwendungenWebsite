@@ -1,5 +1,4 @@
-import { getMovieById } from '$lib/server/database.js';
-import { getMoviePriceForUser } from '$lib/server/database.js';
+import { getMoviePriceForUser, getMovieById } from '$lib/server/database.js';
 import { json } from '@sveltejs/kit';
 
 export async function GET({ params, locals }) {

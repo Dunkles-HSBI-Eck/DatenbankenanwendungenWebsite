@@ -3,7 +3,7 @@ export async function load({ params, fetch }) {
 	const movie = await response.json();
 	let ownsMovie = false;
 	let isLoggedIn;
-	const response2 = await fetch('/api/v1/borrowedMovies');
+	const response2 = await fetch('/api/v1/user/rented');
 	const data = await response2.json();
 	if (response2.status == 401) {
 		ownsMovie = false;
@@ -11,7 +11,7 @@ export async function load({ params, fetch }) {
 	} else {
 		isLoggedIn = true;
 		// Map API data to table format
-		const BorrowedTableData = data.movies.map((m) => m.id);
+		const BorrowedTableData = data.map((m) => m.id);
 		for (let i = 0; i < BorrowedTableData.length; i++) {
 			if (BorrowedTableData[i] == params.id) {
 				ownsMovie = true;
@@ -20,17 +20,17 @@ export async function load({ params, fetch }) {
 	}
 	let reservationAvalable = false;
 	let reservedMovie = false;
-	const response3 = await fetch("/api/v1/reservations");
+	const response3 = await fetch("/api/v1/user/reservations");
 	const reserveData = await response3.json();
 	if(response3.status == 401){
 		reservedMovie = false;
 	}
 	else{
-		for(let i = 0; i < reserveData.reservations.length; i++)
+		for(let i = 0; i < reserveData.length; i++)
 		{
-			if(reserveData.reservations[i].id == params.id)
+			if(reserveData[i].id == params.id)
 			{
-				if(reserveData.reservations[i].status)
+				if(reserveData[i].status)
 				{
 					reservationAvalable = true;
 				}

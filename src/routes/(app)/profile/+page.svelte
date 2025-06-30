@@ -20,19 +20,19 @@
 	
 
 	onMount(async () => {
-		const response = await fetch('/api/v1/borrowedMovies');
+		const response = await fetch('/api/v1/user/rented');
 		const data = await response.json();
-		BorrowedTableData = data.movies.map((movie) => ({
+		BorrowedTableData = data.map((movie) => ({
 			id: movie.id,
 			titel: movie.name,
 			startDate: movie.rentalDate,
 			timeLeft: movie.timeLeft
 		}));
 
-		const response2 = await fetch('/api/v1/reservations');
+		const response2 = await fetch('/api/v1/user/reservations');
 		const data2 = await response2.json();
 
-		ReservedTableData = data2.reservations.map((reservation) => ({
+		ReservedTableData = data2.map((reservation) => ({
 			id: reservation.id,
 			titel: reservation.title,
 			status: reservation.status

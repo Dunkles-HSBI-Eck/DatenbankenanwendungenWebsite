@@ -5,7 +5,7 @@
 
 	async function changePlan() {
 
-		const returnRespond = await fetch('/api/v1/tier/update', {
+		const returnRespond = await fetch('/api/v1/user/tier', {
 			method: 'POST',
 			body: JSON.stringify({
 				tierId: plan.id

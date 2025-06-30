@@ -2,12 +2,7 @@
 	export let tableData = [];
 
 	async function rentMovie(movieId) {
-		const rentRespond = await fetch('/api/v1/movies/rent', {
-			method: 'POST',
-			body: JSON.stringify({
-				movieId: movieId
-			})
-		});
+		const rentRespond = await fetch(`/api/v1/movies/${movieId}/rent`);
 		if(rentRespond.ok)
 		{
 			location.reload();

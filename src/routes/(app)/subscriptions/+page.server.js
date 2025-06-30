@@ -8,14 +8,14 @@ export async function load({ locals, fetch }) {
 	const response = await fetch('/api/v1/tiers');
 	const data = await response.json();
 
-	const response2 = await fetch('/api/v1/tier');
+	const response2 = await fetch('/api/v1/user/tier');
 	const data2 = await response2.json();
 
 	let subscriptions = [];
 
 	let currentPlanID = data2.id ?? null;
 
-	subscriptions = data.tiers.map((tier) => ({
+	subscriptions = data.map((tier) => ({
 		id: tier.id,
 		name: tier.name,
 		price: tier.price,

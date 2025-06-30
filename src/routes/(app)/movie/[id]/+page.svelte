@@ -41,24 +41,14 @@
 	}
 
 	async function reserveMovie() {
-		const reserveRespond = await fetch('/api/v1/reservations/reserve', {
-			method: 'POST',
-			body: JSON.stringify({
-				movieId: movieId
-			})
-		});
+		const reserveRespond = await fetch(`/api/v1/movies/${movieId}/reservate`);
 		if (reserveRespond.ok) {
 			UserReservedMovie = true;
 		}
 	}
 
 	async function returnMovie() {
-		const returnRespond = await fetch('/api/v1/movies/return', {
-			method: 'POST',
-			body: JSON.stringify({
-				movieId: movieId
-			})
-		});
+		const returnRespond = await fetch(`/api/v1/movies/${movieId}/return`);
 		if (returnRespond.ok) {
 			UserOwnsMovie = false;
 		}
@@ -69,12 +59,7 @@
 	}
 
 	async function confirmBorrowing() {
-		const rentRespond = await fetch('/api/v1/movies/rent', {
-			method: 'POST',
-			body: JSON.stringify({
-				movieId: movieId
-			})
-		});
+		const rentRespond = await fetch(`/api/v1/movies/${movieId}/rent`);
 		showBorrowWindow = false;
 		if (rentRespond.ok) {
 			UserOwnsMovie = true;

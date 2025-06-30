@@ -8,13 +8,7 @@ export async function POST({ request, locals }) {
 	if (!locals.userId) {
 		return json({ error: 'Not authenticated' }, { status: 401 });
 	} 
-	const result = await addRequest(locals.userId, message);
+	await addRequest(locals.userId, message);
 
-	if (!result) {
-		return new Response('failed to add request', { status: 404 });
-	}
-
-	return json({
-		status: 200
-	});
+	return json();
 }

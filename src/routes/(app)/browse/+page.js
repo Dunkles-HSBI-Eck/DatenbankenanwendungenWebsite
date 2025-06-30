@@ -6,7 +6,7 @@ export async function load({ url, fetch }) {
         throw new Error('Failed to fetch movies');
     }
 
-    const responseGenres = await fetch('/api/v1/genres');
+    const responseGenres = await fetch('/api/v1/movies/genres');
     if (!responseGenres.ok) {
         throw new Error('Failed to fetch genres');
     }
