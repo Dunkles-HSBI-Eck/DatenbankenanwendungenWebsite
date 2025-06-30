@@ -242,5 +242,12 @@
 		>
 			Mehr Filme laden
 		</button>
+    {:else}
+		<div class="text-secondary-600 space-y-2 text-center">
+			<p>Nicht gefunden wonach du suchst?</p>
+			<a href="/profile" class="btn bg-primary-500 rounded-lg px-4 py-2 hover:scale-105"
+				>Schlag uns einen Film vor!</a
+			>
+		</div>
 	{/if}
 </div>
