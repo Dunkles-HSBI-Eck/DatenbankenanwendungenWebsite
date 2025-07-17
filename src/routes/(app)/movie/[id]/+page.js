@@ -5,12 +5,13 @@ export async function load({ params, fetch }) {
 	let isLoggedIn;
 	const response2 = await fetch('/api/v1/user/rented');
 	const data = await response2.json();
+	
+	//Check if User is logged in and owns the movie
 	if (response2.status == 401) {
 		ownsMovie = false;
 		isLoggedIn = false;
 	} else {
 		isLoggedIn = true;
-		// Map API data to table format
 		const BorrowedTableData = data.map((m) => m.id);
 		for (let i = 0; i < BorrowedTableData.length; i++) {
 			if (BorrowedTableData[i] == params.id) {
@@ -18,6 +19,8 @@ export async function load({ params, fetch }) {
 			}
 		}
 	}
+
+	//Check if User has reserved the movie and if the reserved movie is avalable  
 	let reservationAvalable = false;
 	let reservedMovie = false;
 	const response3 = await fetch("/api/v1/user/reservations");

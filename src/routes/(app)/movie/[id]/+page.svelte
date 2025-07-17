@@ -19,7 +19,8 @@
 		{ task: 'Writers', people: movie.writers }
 	];
 
-	function formatTime(seconds) {
+	//turns amount of seconds into a string "hours:minutes:seconds"
+	function formatTime(seconds) { 
 		seconds = Math.floor(seconds);
 		const hours = Math.floor(seconds / 3600);
 		const minutes = Math.floor((seconds % 3600) / 60);
@@ -40,7 +41,9 @@
 		showBorrowWindow = false;
 	}
 
+
 	async function reserveMovie() {
+		//API call to reserve movie
 		const reserveRespond = await fetch(`/api/v1/movies/${movieId}/reservate`);
 		if (reserveRespond.ok) {
 			UserReservedMovie = true;
@@ -48,6 +51,7 @@
 	}
 
 	async function returnMovie() {
+		//API call to return movie
 		const returnRespond = await fetch(`/api/v1/movies/${movieId}/return`);
 		if (returnRespond.ok) {
 			UserOwnsMovie = false;
@@ -59,6 +63,7 @@
 	}
 
 	async function confirmBorrowing() {
+		//API call to rent movie
 		const rentRespond = await fetch(`/api/v1/movies/${movieId}/rent`);
 		showBorrowWindow = false;
 		if (rentRespond.ok) {
@@ -66,6 +71,7 @@
 		}
 	}
 
+	//converts price number to a string that always has 2 decimals and '€'
 	function convertToPrice(number) {
 		let string = number.toString();
 		let dot = string.indexOf('.');
